@@ -14,20 +14,11 @@ void main() {
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-  Map<dynamic, dynamic> parastr = {
-    "title": const Text(
-      "Provider EX",
-      style: TextStyle(fontSize: 30),
-    ),
-    "username": "Gia Lê Đẹp trai",
-    "fontSize": 30.0,
-    "fontFamily": "Italianno",
-    "textStyleDefault": TextStyle(fontSize: 30)
-  };
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(fontFamily: parastr["fontFamily"]),
+      theme: ThemeData(fontFamily: "fontFamily"),
       debugShowCheckedModeBanner: false,
       initialRoute: RouteManager.loginScreen,
       onGenerateRoute: RouteManager.generateRoute,

@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_ex/models/routes.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key? key}) : super(key: key);
+  Map<dynamic, dynamic> parastr = {};
+  LoginScreen({Key? key, required this.parastr}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -68,8 +69,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.yellow,
+                primary: Colors.blue,
               ),
+            ),
+            ElevatedButton(
+              child: Text("Sign in Google",style: widget.parastr["textStyleDefault"],),
+              onPressed: (){
+
+              }
             )
           ],
         ),

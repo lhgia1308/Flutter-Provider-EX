@@ -3,8 +3,9 @@ import 'package:flutter_provider_ex/screens/contact/contact.dart';
 import 'package:flutter_provider_ex/screens/home/home.dart';
 import 'package:flutter_provider_ex/screens/login.dart';
 
+import 'package:flutter_provider_ex/constrants.dart';
+
 class RouteManager {
-  static var parastr1 = {};
   static const String loginScreen = '/';
   static const String homeScreen = '/home';
   static const String contactScreen = '/contact';
@@ -21,7 +22,7 @@ class RouteManager {
             "title": "",
             "automaticallyImplyLeading": true,
           },
-          "widget": LoginScreen()
+          "widget": LoginScreen(parastr: configPara)
         };
         return MaterialPageRoute(
             builder: (context) => scafFoldDefault(parastr));
