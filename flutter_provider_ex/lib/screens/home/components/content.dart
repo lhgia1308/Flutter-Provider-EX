@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_ex/models/routes.dart';
+import 'package:flutter_provider_ex/routes.dart';
 
 class HomeContent extends StatelessWidget {
   var parastr = {};

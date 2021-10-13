@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_ex/generated/l10n.dart';
 
 class Header extends StatelessWidget {
   var parastr = {};
@@ -7,7 +8,7 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Text(
-        "Header",
+        S.of(context).labelHeader,
         style: parastr['textStyleDefault'],
       ),
     );

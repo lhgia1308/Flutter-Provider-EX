@@ -1,27 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_ex/screens/home/components/content.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_provider_ex/constrants.dart';
+import 'package:flutter_provider_ex/generated/l10n.dart';
+import 'package:flutter_provider_ex/language_change_provider.dart';
 import 'package:provider/provider.dart';
+import 'routes.dart';
+import 'utils/user_simple_preferences.dart';
 
-import 'models/cart.dart';
-import 'models/catalog.dart';
-import 'models/routes.dart';
-import 'screens/home/home.dart';
-import 'screens/login.dart';
-
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  await UserSimplePreferences.init();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(fontFamily: "fontFamily"),
-      debugShowCheckedModeBanner: false,
-      initialRoute: RouteManager.loginScreen,
-      onGenerateRoute: RouteManager.generateRoute,
+    return ChangeNotifierProvider<LanguageChangeProvider>(
+      create: (context) => LanguageChangeProvider(),
+      child: Builder(builder: (context) {
+        return MaterialApp(
+          locale: Provider.of<LanguageChangeProvider>(context, listen: true)
+              .currentLocale,
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+          theme: ThemeData(fontFamily: configPara["fontFamily"]),
+          debugShowCheckedModeBanner: false,
+          initialRoute: RouteManager.loginScreen,
+          onGenerateRoute: RouteManager.generateRoute,
+        );
+      }),
     );
   }
 }
