@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_ex/controllers/login_controller.dart';
 import 'package:flutter_provider_ex/screens/contact/contact.dart';
 import 'package:flutter_provider_ex/screens/home/home.dart';
 import 'package:flutter_provider_ex/screens/login.dart';
 
 import 'package:flutter_provider_ex/constrants.dart';
+import 'package:provider/provider.dart';
 
 class RouteManager {
   static const String loginScreen = '/';
@@ -11,44 +13,49 @@ class RouteManager {
   static const String contactScreen = '/contact';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    var dataSend;
-    if (settings.arguments != null) {
-      dataSend = settings.arguments as Map<dynamic, dynamic>;
-    }
+    Map<dynamic, dynamic> parastr = {};
+    return MaterialPageRoute(
+      builder: (context) {
+        parastr = _switchUI(settings);
+        return scafFoldDefault(parastr);
+      },
+    );
+  }
+
+  static Map<dynamic, dynamic> _switchUI(RouteSettings settings) {
+    Map<dynamic, dynamic> parastr = {};
     switch (settings.name) {
       case loginScreen:
-        Map<dynamic, dynamic> parastr = {
+        parastr = {
           "appBar": {
             "title": "",
             "automaticallyImplyLeading": true,
           },
           "widget": LoginScreen(parastr: configPara)
         };
-        return MaterialPageRoute(
-            builder: (context) => scafFoldDefault(parastr));
+        break;
       case homeScreen:
-        Map<dynamic, dynamic> parastr = {
+        parastr = {
           "appBar": {
             "title": "Home Screen",
             "automaticallyImplyLeading": false,
           },
-          "widget": HomeScreen(parastr: dataSend),
+          "widget": HomeScreen(),
         };
-        return MaterialPageRoute(
-            builder: (context) => scafFoldDefault(parastr));
+        break;
       case contactScreen:
-        Map<dynamic, dynamic> parastr = {
+        parastr = {
           "appBar": {
             "title": "Contact Screen",
             "automaticallyImplyLeading": true,
           },
           "widget": ContactScreen(),
         };
-        return MaterialPageRoute(
-            builder: (context) => scafFoldDefault(parastr));
+        break;
       default:
         throw const FormatException('khong tim thay giao dien tuong uong');
     }
+    return parastr;
   }
 
   static Widget scafFoldDefault(parastr) {

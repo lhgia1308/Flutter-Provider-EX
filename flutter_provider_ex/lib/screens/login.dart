@@ -2,11 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_ex/controllers/login_controller.dart';
 import 'package:flutter_provider_ex/generated/l10n.dart';
 import 'package:flutter_provider_ex/language_change_provider.dart';
+import 'package:flutter_provider_ex/models/user_detail.dart';
 import 'package:flutter_provider_ex/routes.dart';
 import 'package:flutter_provider_ex/utils/user_simple_preferences.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 import 'package:provider/src/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -41,6 +45,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return _loginUI();
+  }
+
+  Widget _loginUI() {
     return Center(
       child: Container(
         child: Column(
@@ -75,12 +83,16 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 24,
             ),
             _loginButton(context),
+            _loginGoogle(context),
             ElevatedButton(
-                child: Text(
-                  "Sign in Google",
-                  style: widget.parastr["textStyleDefault"],
-                ),
-                onPressed: () {}),
+              child: Text(
+                "Sign in Facebook",
+                style: widget.parastr["textStyleDefault"],
+              ),
+              onPressed: () {
+                _loginFacebook();
+              },
+            ),
             //Select language
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -110,6 +122,27 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  Widget _loginGoogle(BuildContext context) {
+    UserDetail? userDetail;
+    return ElevatedButton(
+      child: Text(
+        "Sign in Google",
+        style: widget.parastr["textStyleDefault"],
+      ),
+      onPressed: () async {
+        await Provider.of<LoginController>(context, listen: false)
+            .googleLogin();
+        userDetail =
+            Provider.of<LoginController>(context, listen: false).getUserDetail;
+        if (userDetail != null) {
+          Navigator.of(context).pushNamed(RouteManager.homeScreen);
+        }
+      },
+    );
+  }
+
+  Function? _loginFacebook() {}
 
   Widget _loginButton(BuildContext context) {
     return ElevatedButton(
