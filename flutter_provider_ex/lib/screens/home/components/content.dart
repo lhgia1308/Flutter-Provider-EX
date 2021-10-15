@@ -9,25 +9,43 @@ class HomeContent extends StatelessWidget {
   HomeContent({Key? key, required this.parastr}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    UserDetail? userDetail;
+    UserDetail? _userDetail;
+    _userDetail = context.watch<LoginController>().getUserDetail;
+    String? _displayName = _userDetail == null ? "" : _userDetail.displayName;
+    //Having 3 methods get data from Provider
+    Color? _color = context.watch<LoginController>().getColor;
+    // Color? _color1 = context.watch<LoginController>().getColor1();
+    // Color? _color =
+    //     Provider.of<LoginController>(context, listen: false).getColor;
+    // Color? _color =
+    //     Provider.of<LoginController>(context, listen: true).getColor1();
     return Column(
       children: [
+        //Show data from Provider using Consume, condition must return a widget
         Consumer<LoginController>(
           builder: (context, model, child) {
+            String? _displayName1 = model.getUserDetail == null
+                ? ""
+                : model.getUserDetail?.displayName;
             return Container(
-              child:
-                  Text("Home Content xin chao ${model.getUserDetail!.email}}"),
+              child: Text("Data from Consumer xin chao ${_displayName1}}"),
             );
           },
         ),
         Text(
-          "context watch: ${context.watch<LoginController>().getUserDetail!.displayName}",
-          style: TextStyle(color: context.watch<LoginController>().getColor()),
+          "Data from context.watch: ${_displayName}",
+          style: TextStyle(color: _color),
         ),
         ElevatedButton(
           child: Text("Change color Text"),
           onPressed: () {
-            context.read<LoginController>().colorText = Colors.blue;
+            //Having 2 methods set data to Provider
+            context.read<LoginController>().setColorText(Colors.black);
+            // Provider.of<LoginController>(context, listen: false)
+            //     .setColorText(Colors.black);
+            //DO NOT USE listen: true
+            // Provider.of<LoginController>(context, listen: true)
+            //     .setColorText(Colors.black);
           },
         ),
         ElevatedButton(
@@ -41,9 +59,8 @@ class HomeContent extends StatelessWidget {
           onPressed: () async {
             await Provider.of<LoginController>(context, listen: false)
                 .googleLogout();
-            userDetail = context.watch();
-            if (userDetail != null) {
-              Navigator.of(context).pushNamed(RouteManager.homeScreen);
+            if (_userDetail != null) {
+              Navigator.of(context).pushNamed(RouteManager.loginScreen);
             }
           },
         )

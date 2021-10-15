@@ -6,10 +6,22 @@ class LoginController with ChangeNotifier {
   var _googleSignIn = GoogleSignIn();
   GoogleSignInAccount? googleSignInAccount;
   UserDetail? _userDetail;
-  Color? _colorText;
+  Color? _colorText = Colors.amber;
 
-  set colorText(Color color) => _colorText = color;
-  Color? getColor() => _colorText;
+  void setColorText(Color color) {
+    _colorText = color;
+    notifyListeners();
+  }
+
+  //DO NOT USE SET DATE BECAUSE THE DATA WILL NOT CHANGE
+  set setColorText1(Color color) => () {
+        _colorText = color;
+        notifyListeners();
+      };
+
+  Color? get getColor => _colorText;
+  Color? getColor1() => _colorText;
+
   UserDetail? get getUserDetail => _userDetail;
 
   googleLogin() async {

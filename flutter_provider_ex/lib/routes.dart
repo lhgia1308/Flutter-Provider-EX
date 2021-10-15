@@ -16,13 +16,14 @@ class RouteManager {
     Map<dynamic, dynamic> parastr = {};
     return MaterialPageRoute(
       builder: (context) {
-        parastr = _switchUI(settings);
+        parastr = _switchUI(settings, context);
         return scafFoldDefault(parastr);
       },
     );
   }
 
-  static Map<dynamic, dynamic> _switchUI(RouteSettings settings) {
+  static Map<dynamic, dynamic> _switchUI(
+      RouteSettings settings, BuildContext context) {
     Map<dynamic, dynamic> parastr = {};
     switch (settings.name) {
       case loginScreen:
@@ -31,7 +32,8 @@ class RouteManager {
             "title": "",
             "automaticallyImplyLeading": true,
           },
-          "widget": LoginScreen(parastr: configPara)
+          "widget": LoginScreen(parastr: configPara),
+          "buildContext": context
         };
         break;
       case homeScreen:
@@ -41,6 +43,7 @@ class RouteManager {
             "automaticallyImplyLeading": false,
           },
           "widget": HomeScreen(),
+          "buildContext": context
         };
         break;
       case contactScreen:
@@ -50,6 +53,7 @@ class RouteManager {
             "automaticallyImplyLeading": true,
           },
           "widget": ContactScreen(),
+          "buildContext": context
         };
         break;
       default:
@@ -65,6 +69,7 @@ class RouteManager {
       bool automaticallyImplyLeading =
           parastr["appBar"]["automaticallyImplyLeading"];
       Widget widget = parastr["widget"];
+      BuildContext context = parastr["buildContext"];
       if (titleAppBar.isEmpty) {
         result = Scaffold(
           body: SafeArea(
@@ -78,7 +83,11 @@ class RouteManager {
       if (titleAppBar.isNotEmpty) {
         result = Scaffold(
           appBar: AppBar(
-            title: Text(titleAppBar),
+            title: Text(
+              titleAppBar,
+              style:
+                  TextStyle(color: context.watch<LoginController>().getColor),
+            ),
             automaticallyImplyLeading: automaticallyImplyLeading,
           ),
           body: SafeArea(
