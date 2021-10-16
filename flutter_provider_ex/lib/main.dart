@@ -38,7 +38,12 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: S.delegate.supportedLocales,
-          theme: ThemeData(fontFamily: configPara["fontFamily"]),
+          theme: ThemeData(
+            fontFamily: configPara["fontFamily"],
+            scaffoldBackgroundColor:
+                context.watch<LoginController>().getDefaultBackground,
+            primaryColor: Colors.blue,
+          ),
           debugShowCheckedModeBanner: false,
           initialRoute: RouteManager.loginScreen,
           onGenerateRoute: RouteManager.generateRoute,

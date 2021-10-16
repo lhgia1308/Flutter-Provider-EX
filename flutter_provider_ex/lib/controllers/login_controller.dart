@@ -6,7 +6,21 @@ class LoginController with ChangeNotifier {
   var _googleSignIn = GoogleSignIn();
   GoogleSignInAccount? googleSignInAccount;
   UserDetail? _userDetail;
-  Color? _colorText = Colors.amber;
+  Color? _colorText = Colors.white;
+  double _defaultFontSize = 25.0;
+  TextStyle? _defaultTextStyle;
+  Color? defaultBackground = Colors.blueGrey[100];
+
+  Color? get getDefaultBackground => defaultBackground;
+  double get getDefaultFontSize => _defaultFontSize;
+
+  TextStyle getDefaultTextStyle() {
+    TextStyle textStyle = TextStyle(
+      fontSize: _defaultFontSize,
+      color: _colorText,
+    );
+    return textStyle;
+  }
 
   void setColorText(Color color) {
     _colorText = color;
@@ -28,6 +42,7 @@ class LoginController with ChangeNotifier {
     this.googleSignInAccount = await this._googleSignIn.signIn();
 
     this._userDetail = new UserDetail(
+      id: this.googleSignInAccount!.id,
       displayName: this.googleSignInAccount!.displayName,
       email: this.googleSignInAccount!.email,
       photoURL: this.googleSignInAccount!.photoUrl,
@@ -39,7 +54,7 @@ class LoginController with ChangeNotifier {
   googleLogout() async {
     this.googleSignInAccount = await this._googleSignIn.signOut();
 
-    this._userDetail = null;
+    // this._userDetail = null;
 
     notifyListeners();
   }

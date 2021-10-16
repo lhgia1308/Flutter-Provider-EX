@@ -2,5 +2,7 @@
     "welcomeText":"Xin chào",
     "labelUserName":"Tên đăng nhập",
     "labelPass":"Mật khẩu",
-    "labelHeader":"Tieu De"
+    "labelHeader":"Tiêu Đề",
+    "lableLogout": "Đăng xuất",
+    "labelName": "Tên"
 }

@@ -7,6 +7,8 @@ import 'package:flutter_provider_ex/screens/login.dart';
 import 'package:flutter_provider_ex/constrants.dart';
 import 'package:provider/provider.dart';
 
+import 'models/user_detail.dart';
+
 class RouteManager {
   static const String loginScreen = '/';
   static const String homeScreen = '/home';
@@ -25,6 +27,7 @@ class RouteManager {
   static Map<dynamic, dynamic> _switchUI(
       RouteSettings settings, BuildContext context) {
     Map<dynamic, dynamic> parastr = {};
+    final args = settings.arguments;
     switch (settings.name) {
       case loginScreen:
         parastr = {
@@ -32,7 +35,7 @@ class RouteManager {
             "title": "",
             "automaticallyImplyLeading": true,
           },
-          "widget": LoginScreen(parastr: configPara),
+          "widget": LoginScreen(argument: args),
           "buildContext": context
         };
         break;
@@ -85,10 +88,28 @@ class RouteManager {
           appBar: AppBar(
             title: Text(
               titleAppBar,
-              style:
-                  TextStyle(color: context.watch<LoginController>().getColor),
+              style: TextStyle(
+                color: context.watch<LoginController>().getColor,
+                fontSize: context.watch<LoginController>().getDefaultFontSize,
+              ),
             ),
             automaticallyImplyLeading: automaticallyImplyLeading,
+            actions: [
+              //Button logout
+              IconButton(
+                onPressed: () async {
+                  await Provider.of<LoginController>(context, listen: false)
+                      .googleLogout();
+                  UserDetail? userDetail =
+                      Provider.of<LoginController>(context, listen: false)
+                          .getUserDetail;
+                  Navigator.of(context).pushReplacementNamed(
+                      RouteManager.loginScreen,
+                      arguments: userDetail);
+                },
+                icon: const Icon(Icons.logout),
+              )
+            ],
           ),
           body: SafeArea(
             child: SingleChildScrollView(

@@ -89,6 +89,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Logout`
+  String get lableLogout {
+    return Intl.message(
+      'Logout',
+      name: 'lableLogout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get labelName {
+    return Intl.message(
+      'Name',
+      name: 'labelName',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

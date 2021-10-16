@@ -1,6 +1,8 @@
 // Copyright 2020 The Flutter team. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_ex/controllers/login_controller.dart';
 import 'package:flutter_provider_ex/generated/l10n.dart';
@@ -12,10 +14,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/src/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class LoginScreen extends StatefulWidget {
-  Map<dynamic, dynamic> parastr = {};
-  LoginScreen({Key? key, required this.parastr}) : super(key: key);
+  Object? argument = {};
+  LoginScreen({Key? key, required this.argument}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -27,10 +30,15 @@ class _LoginScreenState extends State<LoginScreen> {
   String errText = "";
   late FocusNode _focusUserName;
   late FocusNode _focusPass;
+  UserDetail? userDetail;
 
   @override
   void initState() {
-    userNameController.text = UserSimplePreferences.getUserName() ?? "";
+    final id = Uuid().v4();
+    userDetail = widget.argument == null
+        ? UserDetail(id: id)
+        : widget.argument as UserDetail?;
+    userNameController.text = userDetail!.email ?? "";
     _focusUserName = FocusNode();
     _focusPass = FocusNode();
     super.initState();
@@ -83,11 +91,11 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 24,
             ),
             _loginButton(context),
-            _loginGoogle(context),
+            _logInGoogle(context),
             ElevatedButton(
               child: Text(
                 "Sign in Facebook",
-                style: widget.parastr["textStyleDefault"],
+                style: context.watch<LoginController>().getDefaultTextStyle(),
               ),
               onPressed: () {
                 _loginFacebook();
@@ -123,19 +131,31 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _loginGoogle(BuildContext context) {
-    UserDetail? userDetail;
+  Widget _logInGoogle(BuildContext context) {
     return ElevatedButton(
       child: Text(
         "Sign in Google",
-        style: widget.parastr["textStyleDefault"],
+        style: context.watch<LoginController>().getDefaultTextStyle(),
       ),
       onPressed: () async {
+        UserDetail? _newUser;
         await Provider.of<LoginController>(context, listen: false)
             .googleLogin();
-        userDetail =
+        _newUser =
             Provider.of<LoginController>(context, listen: false).getUserDetail;
-        if (userDetail != null) {
+        // if (userDetail!.id == null) userDetail.id = Uuid().v4();
+        String? _idNewUser = _newUser == null ? "" : _newUser.id;
+        String? _idOldUser = userDetail == null ? "" : userDetail!.id;
+        if (_newUser != null) {
+          if (_idNewUser != _idOldUser) {
+            await UserSimplePreferences.setUser(_newUser);
+            setState(() {
+              userDetail = _newUser;
+            });
+
+            UserDetail userDetail1 = UserSimplePreferences.getUser(_newUser.id);
+            print(userDetail1);
+          }
           Navigator.of(context).pushNamed(RouteManager.homeScreen);
         }
       },
@@ -156,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
             "pass": passController.text,
           });
           //Save data into Shared
-          await UserSimplePreferences.setUserName(userNameController.text);
+          // await UserSimplePreferences.setUser(user)
         }
       },
       style: ElevatedButton.styleFrom(

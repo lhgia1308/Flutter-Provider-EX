@@ -21,10 +21,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "labelHeader": MessageLookupByLibrary.simpleMessage("Header"),
+        "labelHeader": MessageLookupByLibrary.simpleMessage("បឋមកថា"),
+        "labelName": MessageLookupByLibrary.simpleMessage("Tên"),
         "labelPass": MessageLookupByLibrary.simpleMessage("ពាក្យសម្ងាត់"),
         "labelUserName":
             MessageLookupByLibrary.simpleMessage("ឈ្មោះ​អ្នកប្រើប្រាស់"),
+        "lableLogout": MessageLookupByLibrary.simpleMessage("ចាកចេញ"),
         "welcomeText": MessageLookupByLibrary.simpleMessage("សូមស្វាគមន៍")
       };
 }

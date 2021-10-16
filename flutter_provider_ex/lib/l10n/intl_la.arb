@@ -2,5 +2,7 @@
     "welcomeText":"សូមស្វាគមន៍",
     "labelUserName":"ឈ្មោះ​អ្នកប្រើប្រាស់",
     "labelPass":"ពាក្យសម្ងាត់",
-    "labelHeader":"Header"
+    "labelHeader":"បឋមកថា",
+    "lableLogout": "ចាកចេញ",
+    "labelName": "Tên"
 }

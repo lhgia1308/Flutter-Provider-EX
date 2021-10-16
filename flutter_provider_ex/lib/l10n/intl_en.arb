@@ -2,5 +2,7 @@
     "welcomeText":"Welcome",
     "labelUserName":"Username",
     "labelPass":"Password",
-    "labelHeader":"Header"
+    "labelHeader":"Header",
+    "lableLogout": "Logout",
+    "labelName": "Name"
 }
