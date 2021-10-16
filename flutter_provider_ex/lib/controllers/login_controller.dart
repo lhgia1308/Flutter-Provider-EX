@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_ex/models/setting.dart';
 import 'package:flutter_provider_ex/models/user_detail.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -42,11 +43,17 @@ class LoginController with ChangeNotifier {
     this.googleSignInAccount = await this._googleSignIn.signIn();
 
     this._userDetail = new UserDetail(
-      id: this.googleSignInAccount!.id,
-      displayName: this.googleSignInAccount!.displayName,
-      email: this.googleSignInAccount!.email,
-      photoURL: this.googleSignInAccount!.photoUrl,
-    );
+        id: this.googleSignInAccount!.id,
+        displayName: this.googleSignInAccount!.displayName,
+        email: this.googleSignInAccount!.email,
+        photoURL: this.googleSignInAccount!.photoUrl,
+        birthday: DateTime(2021, 10, 10),
+        pets: ["cho", "meo", "ga"],
+        setting: Setting(
+          allowNewsletter: true,
+          allowNotification: true,
+          language: "vn",
+        ));
 
     notifyListeners();
   }

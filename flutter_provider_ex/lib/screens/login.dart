@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_ex/controllers/login_controller.dart';
@@ -12,6 +13,8 @@ import 'package:flutter_provider_ex/routes.dart';
 import 'package:flutter_provider_ex/utils/user_simple_preferences.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/src/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -31,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late FocusNode _focusUserName;
   late FocusNode _focusPass;
   UserDetail? userDetail;
+  List<UserDetail>? users;
 
   @override
   void initState() {
@@ -39,6 +43,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ? UserDetail(id: id)
         : widget.argument as UserDetail?;
     userNameController.text = userDetail!.email ?? "";
+
+    // UserSimplePreferences.removeAll();
+    users = UserSimplePreferences.getUsers();
+
     _focusUserName = FocusNode();
     _focusPass = FocusNode();
     super.initState();
@@ -148,13 +156,11 @@ class _LoginScreenState extends State<LoginScreen> {
         String? _idOldUser = userDetail == null ? "" : userDetail!.id;
         if (_newUser != null) {
           if (_idNewUser != _idOldUser) {
+            await UserSimplePreferences.addUsers(_newUser);
             await UserSimplePreferences.setUser(_newUser);
             setState(() {
               userDetail = _newUser;
             });
-
-            UserDetail userDetail1 = UserSimplePreferences.getUser(_newUser.id);
-            print(userDetail1);
           }
           Navigator.of(context).pushNamed(RouteManager.homeScreen);
         }
@@ -202,4 +208,35 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     return errText;
   }
+
+  // Widget buildPets() => buildTitle(
+  //       title: 'Pets',
+  //       child: PetsButtonsWidget(
+  //         pets: user.pets,
+  //         onSelectedPet: (pet) => setState(() {
+  //           final pets = user.pets.contains(pet)
+  //               ? (List.of(user.pets)..remove(pet))
+  //               : (List.of(user.pets)..add(pet));
+
+  //           setState(() => user = user.copy(pets: pets));
+  //         }),
+  //       ),
+  //     );
+  Widget _buildImage() => GestureDetector(
+        child: const CircleAvatar(
+          child: Icon(Icons.ac_unit),
+        ),
+        onTap: () async {
+          final _image =
+              await ImagePicker().getImage(source: ImageSource.gallery);
+          if (_image == null) return;
+          final directory = await getApplicationDocumentsDirectory();
+          final id = '_${widget.argument}_${Uuid().v4()}';
+          final imageFile = File("${directory.path}/${id}_avata.png");
+          final newImage = await File(_image.path).copy(imageFile.path);
+          setState(() {
+            userDetail?.photoURL = newImage.path;
+          });
+        },
+      );
 }

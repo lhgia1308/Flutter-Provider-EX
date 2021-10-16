@@ -32,12 +32,22 @@ class HomeContent extends StatelessWidget {
                 : model.getUserDetail?.displayName;
             String? _photoURL = model.getUserDetail == null
                 ? ""
-                : model.getUserDetail?.photoURL;
-            return CircleAvatar(
+                : model.getUserDetail?.photoURL ?? "";
+            if (_photoURL != "") {
+              return CircleAvatar(
                 child: Image.network(
-              _photoURL!,
-              fit: BoxFit.contain,
-            ));
+                  _photoURL,
+                  fit: BoxFit.contain,
+                ),
+              );
+            } else {
+              return CircleAvatar(
+                child: Image.asset(
+                  "assets/images/IconApp.png",
+                  fit: BoxFit.cover,
+                ),
+              );
+            }
           },
         ),
         //Shown id

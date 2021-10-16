@@ -7,7 +7,7 @@ class UserSimplePreferences {
   static late SharedPreferences _preferences;
   static const keyUserName = "username";
   static const keyUserList = "userlist";
-  static List<String>? _userDetailList;
+
   static Future init() async {
     _preferences = await SharedPreferences.getInstance();
   }
@@ -23,13 +23,26 @@ class UserSimplePreferences {
     await _preferences.setString(idUser!, json);
   }
 
-  static addUserIntoList(UserDetail user) {
-    String json = jsonEncode(user);
-    _userDetailList!.add(json);
+  static addUsers(UserDetail user) async {
+    final idUsers = _preferences.getStringList(keyUserList) ?? <String>[];
+    List<String> newIdUsers = [];
+    if (!idUsers.contains(user.id)) {
+      newIdUsers = List.of(idUsers)..add(user.id!);
+    }
+    await _preferences.setStringList(keyUserList, newIdUsers);
   }
 
-  static Future setListUser() async {
-    await _preferences.setStringList(keyUserList, _userDetailList!);
+  static List<UserDetail> getUsers() {
+    final idUsers = _preferences.getStringList(keyUserList);
+    if (idUsers == null) {
+      return <UserDetail>[];
+    } else {
+      return idUsers.map<UserDetail>(getUser).toList();
+    }
+  }
+
+  static Future removeAll() async {
+    await _preferences.remove(keyUserList);
   }
 
   static Future setUserName(String userName) async {
