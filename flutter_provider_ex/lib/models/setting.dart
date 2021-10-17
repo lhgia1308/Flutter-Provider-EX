@@ -10,15 +10,15 @@ class Setting {
   Setting.fromJSON(Map<String, dynamic> json) {
     allowNotification = json["allowNotification"];
     allowNewsletter = json["allowNewsletter"];
-    language = json["language"];
+    language = Locale(json["language"]);
   }
 
   Map<String, dynamic> toJSON() {
+    Locale language1 = this.language as Locale;
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data["allowNotification"] = this.allowNotification;
     data["allowNewsletter"] = this.allowNewsletter;
-    data["language"] = this.language;
-
+    data["language"] = language1.languageCode;
     return data;
   }
 }

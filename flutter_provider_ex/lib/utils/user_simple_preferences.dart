@@ -26,9 +26,7 @@ class UserSimplePreferences {
   static addUsers(UserDetail user) async {
     final idUsers = _preferences.getStringList(keyUserList) ?? <String>[];
     List<String> newIdUsers = [];
-    if (!idUsers.contains(user.id)) {
-      newIdUsers = List.of(idUsers)..add(user.id!);
-    }
+    newIdUsers = List.of(idUsers)..add(user.id!);
     await _preferences.setStringList(keyUserList, newIdUsers);
   }
 

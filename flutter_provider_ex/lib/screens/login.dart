@@ -5,9 +5,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_ex/constrants.dart';
 import 'package:flutter_provider_ex/controllers/login_controller.dart';
 import 'package:flutter_provider_ex/generated/l10n.dart';
 import 'package:flutter_provider_ex/language_change_provider.dart';
+import 'package:flutter_provider_ex/models/language.dart';
 import 'package:flutter_provider_ex/models/user_detail.dart';
 import 'package:flutter_provider_ex/routes.dart';
 import 'package:flutter_provider_ex/utils/user_simple_preferences.dart';
@@ -70,6 +72,26 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Container(
+              alignment: Alignment.topLeft,
+              child: DropdownButton(
+                underline: SizedBox(),
+                icon: Icon(
+                  Icons.language,
+                  color: Colors.white,
+                ),
+                items: getLanguages.map((language) {
+                  return DropdownMenuItem(
+                    value: language.languageCode,
+                    child: Row(children: [
+                      const Icon(Icons.ac_unit),
+                      Text(language.languageCode),
+                    ]),
+                  );
+                }).toList(),
+                onChanged: (val) {},
+              ),
+            ),
             Text(
               S.of(context).welcomeText,
               style: Theme.of(context).textTheme.headline1,
@@ -154,17 +176,33 @@ class _LoginScreenState extends State<LoginScreen> {
             Provider.of<LoginController>(context, listen: false).getUserDetail;
         // if (userDetail!.id == null) userDetail.id = Uuid().v4();
         String? _idNewUser = _newUser == null ? "" : _newUser.id;
-        String? _idOldUser = userDetail == null ? "" : userDetail!.id;
-        if (_newUser != null) {
-          if (_idNewUser != _idOldUser) {
-            await UserSimplePreferences.addUsers(_newUser);
-            await UserSimplePreferences.setUser(_newUser);
-            setState(() {
-              userDetail = _newUser;
-            });
-          }
-          Navigator.of(context).pushNamed(RouteManager.homeScreen);
+        List<UserDetail> _user =
+            users!.where((element) => element.id == _idNewUser).toList();
+        //Exist user in list
+        if (_user.length > 0) {
+          await UserSimplePreferences.setUser(_newUser!);
         }
+        //Not exist user in list => add
+        else {
+          await UserSimplePreferences.addUsers(_newUser!);
+          await UserSimplePreferences.setUser(_newUser);
+          setState(() {
+            userDetail = _newUser;
+          });
+        }
+        Navigator.of(context).pushNamed(RouteManager.homeScreen);
+
+        // if()
+        // if (_newUser != null) {
+        //   if (_idNewUser != _idOldUser) {
+        //     await UserSimplePreferences.addUsers(_newUser);
+        //     await UserSimplePreferences.setUser(_newUser);
+        //     setState(() {
+        //       userDetail = _newUser;
+        //     });
+        //   }
+        //   Navigator.of(context).pushNamed(RouteManager.homeScreen);
+        // }
       },
     );
   }

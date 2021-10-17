@@ -54,7 +54,8 @@ class LoginController with ChangeNotifier {
         setting: Setting(
           allowNewsletter: true,
           allowNotification: true,
-          language: context.watch<LanguageChangeProvider>().currentLocale,
+          language: Provider.of<LanguageChangeProvider>(context, listen: false)
+              .currentLocale,
         ));
 
     notifyListeners();
