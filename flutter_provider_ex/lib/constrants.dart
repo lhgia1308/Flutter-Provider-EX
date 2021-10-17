@@ -14,7 +14,7 @@ Map<dynamic, dynamic> configPara = {
 };
 
 List<Language> getLanguages = <Language>[
-  Language(1, 'English', 'en'),
-  Language(2, 'فارسی', 'fa'),
-  Language(3, 'پشتو', 'ps'),
+  Language(1, 'English', 'en', "assets/countries/us.svg"),
+  Language(2, 'Vietnamese', 'vi', "assets/countries/vi.svg"),
+  // Language(3, 'ឡាវ', 'la', "assets/countries/la.svg"),
 ];

@@ -37,6 +37,8 @@ class _LoginScreenState extends State<LoginScreen> {
   late FocusNode _focusPass;
   UserDetail? userDetail;
   List<UserDetail>? users;
+  Language? _selectLanguage =
+      Language(1, 'English', 'en', "assets/countries/us.svg");
 
   @override
   void initState() {
@@ -45,7 +47,8 @@ class _LoginScreenState extends State<LoginScreen> {
         ? UserDetail(id: id)
         : widget.argument as UserDetail?;
     userNameController.text = userDetail!.email ?? "";
-
+    if (userDetail!.setting != null)
+      _selectLanguage = userDetail!.setting!.language;
     // UserSimplePreferences.removeAll();
     users = UserSimplePreferences.getUsers();
 
@@ -72,26 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              alignment: Alignment.topLeft,
-              child: DropdownButton(
-                underline: SizedBox(),
-                icon: Icon(
-                  Icons.language,
-                  color: Colors.white,
-                ),
-                items: getLanguages.map((language) {
-                  return DropdownMenuItem(
-                    value: language.languageCode,
-                    child: Row(children: [
-                      const Icon(Icons.ac_unit),
-                      Text(language.languageCode),
-                    ]),
-                  );
-                }).toList(),
-                onChanged: (val) {},
-              ),
-            ),
+            _buildLanguageDropDown(),
             Text(
               S.of(context).welcomeText,
               style: Theme.of(context).textTheme.headline1,
@@ -161,6 +145,45 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Widget _buildLanguageDropDown() {
+    return DropdownButton(
+      dropdownColor: Theme.of(context).scaffoldBackgroundColor,
+      underline: SizedBox(),
+      icon: SvgPicture.asset(
+        _selectLanguage!.imagePath!,
+        height: 25,
+        width: 25,
+      ),
+      items: getLanguages.map((language) {
+        return DropdownMenuItem(
+          alignment: Alignment.center,
+          value: language,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                language.imagePath!,
+                height: 25,
+                width: 25,
+              ),
+              const SizedBox(width: 5),
+              Text(language.name!)
+            ],
+          ),
+        );
+      }).toList(),
+      onChanged: (Language? language) {
+        setState(() {
+          _selectLanguage = language;
+        });
+        context
+            .read<LanguageChangeProvider>()
+            .changeLocale(_selectLanguage!.languageCode!);
+      },
+    );
+  }
+
   Widget _logInGoogle(BuildContext context) {
     return ElevatedButton(
       child: Text(
@@ -171,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
       onPressed: () async {
         UserDetail? _newUser;
         await Provider.of<LoginController>(context, listen: false)
-            .googleLogin(context);
+            .googleLogin(context, _selectLanguage!);
         _newUser =
             Provider.of<LoginController>(context, listen: false).getUserDetail;
         // if (userDetail!.id == null) userDetail.id = Uuid().v4();
@@ -184,13 +207,17 @@ class _LoginScreenState extends State<LoginScreen> {
         }
         //Not exist user in list => add
         else {
-          await UserSimplePreferences.addUsers(_newUser!);
-          await UserSimplePreferences.setUser(_newUser);
-          setState(() {
-            userDetail = _newUser;
-          });
+          if (_newUser != null) {
+            await UserSimplePreferences.addUsers(_newUser);
+            await UserSimplePreferences.setUser(_newUser);
+            setState(() {
+              userDetail = _newUser;
+            });
+          }
         }
-        Navigator.of(context).pushNamed(RouteManager.homeScreen);
+        if (_newUser != null) {
+          Navigator.of(context).pushNamed(RouteManager.homeScreen);
+        }
 
         // if()
         // if (_newUser != null) {

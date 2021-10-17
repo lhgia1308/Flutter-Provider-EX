@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_provider_ex/language_change_provider.dart';
+import 'package:flutter_provider_ex/models/language.dart';
 import 'package:flutter_provider_ex/models/setting.dart';
 import 'package:flutter_provider_ex/models/user_detail.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -41,27 +43,48 @@ class LoginController with ChangeNotifier {
 
   UserDetail? get getUserDetail => _userDetail;
 
-  googleLogin(BuildContext context) async {
-    this.googleSignInAccount = await this._googleSignIn.signIn();
+  googleLogin(BuildContext context, Language _language) async {
+    String message = "";
+    this.googleSignInAccount = await this._googleSignIn.signIn().catchError(
+      (ex) {
+        PlatformException exception = ex as PlatformException;
+        // print("Error connect with Google: ${exception.code}");
+        switch (exception.code) {
+          case "network_error":
+            message =
+                "Không thể kết nối tới Google, vui lòng kiểm tra lại mạng internet!";
+            break;
+          default:
+            message = exception.code;
+        }
+      },
+    );
+    if (message != "") {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else {
+      this._userDetail = new UserDetail(
+          id: this.googleSignInAccount!.id,
+          displayName: this.googleSignInAccount!.displayName,
+          email: this.googleSignInAccount!.email,
+          photoURL: this.googleSignInAccount!.photoUrl,
+          birthday: DateTime(2021, 10, 10),
+          pets: ["cho", "meo", "ga"],
+          setting: Setting(
+            allowNewsletter: true,
+            allowNotification: true,
+            language: _language,
+          ));
 
-    this._userDetail = new UserDetail(
-        id: this.googleSignInAccount!.id,
-        displayName: this.googleSignInAccount!.displayName,
-        email: this.googleSignInAccount!.email,
-        photoURL: this.googleSignInAccount!.photoUrl,
-        birthday: DateTime(2021, 10, 10),
-        pets: ["cho", "meo", "ga"],
-        setting: Setting(
-          allowNewsletter: true,
-          allowNotification: true,
-          language: Provider.of<LanguageChangeProvider>(context, listen: false)
-              .currentLocale,
-        ));
-
-    notifyListeners();
+      notifyListeners();
+    }
   }
 
-  googleLogout() async {
+  Future googleLogout() async {
     this.googleSignInAccount = await this._googleSignIn.signOut();
 
     // this._userDetail = null;

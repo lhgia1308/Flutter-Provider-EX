@@ -43,16 +43,11 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: Colors.blueGrey[400],
             primaryColor: Colors.blue,
             textTheme: const TextTheme(
-              bodyText1: TextStyle(
-                fontSize: 27.0,
-                color: Colors.white,
-                // fontWeight: FontWeight.bold,
-              ),
+              bodyText1: TextStyle(fontSize: 27.0, color: Colors.white
+                  // fontWeight: FontWeight.bold,
+                  ),
               //Default
-              bodyText2: TextStyle(
-                fontSize: 27.0,
-                color: Colors.white,
-              ),
+              bodyText2: TextStyle(fontSize: 27.0, color: Colors.white),
               caption: TextStyle(
                 fontSize: 27.0,
                 color: Colors.white,
