@@ -4,5 +4,6 @@
     "labelPass":"Password",
     "labelHeader":"Header",
     "lableLogout": "Logout",
-    "labelName": "Name"
+    "labelName": "Name",
+    "labelContact": "Contact"
 }

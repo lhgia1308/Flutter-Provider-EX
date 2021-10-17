@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_ex/language_change_provider.dart';
 import 'package:flutter_provider_ex/models/setting.dart';
 import 'package:flutter_provider_ex/models/user_detail.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 class LoginController with ChangeNotifier {
   var _googleSignIn = GoogleSignIn();
@@ -10,7 +12,7 @@ class LoginController with ChangeNotifier {
   Color? _colorText = Colors.white;
   double _defaultFontSize = 25.0;
   TextStyle? _defaultTextStyle;
-  Color? defaultBackground = Colors.blueGrey[100];
+  Color? defaultBackground = Colors.blueGrey[300];
 
   Color? get getDefaultBackground => defaultBackground;
   double get getDefaultFontSize => _defaultFontSize;
@@ -39,7 +41,7 @@ class LoginController with ChangeNotifier {
 
   UserDetail? get getUserDetail => _userDetail;
 
-  googleLogin() async {
+  googleLogin(BuildContext context) async {
     this.googleSignInAccount = await this._googleSignIn.signIn();
 
     this._userDetail = new UserDetail(
@@ -52,7 +54,7 @@ class LoginController with ChangeNotifier {
         setting: Setting(
           allowNewsletter: true,
           allowNotification: true,
-          language: "vn",
+          language: context.watch<LanguageChangeProvider>().currentLocale,
         ));
 
     notifyListeners();

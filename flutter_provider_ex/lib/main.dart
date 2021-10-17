@@ -39,10 +39,47 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: S.delegate.supportedLocales,
           theme: ThemeData(
-            fontFamily: configPara["fontFamily"],
-            scaffoldBackgroundColor:
-                context.watch<LoginController>().getDefaultBackground,
+            fontFamily: "Italianno",
+            scaffoldBackgroundColor: Colors.blueGrey[400],
             primaryColor: Colors.blue,
+            textTheme: const TextTheme(
+              bodyText1: TextStyle(
+                fontSize: 27.0,
+                color: Colors.white,
+                // fontWeight: FontWeight.bold,
+              ),
+              //Default
+              bodyText2: TextStyle(
+                fontSize: 27.0,
+                color: Colors.white,
+              ),
+              caption: TextStyle(
+                fontSize: 27.0,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+              headline1: TextStyle(color: Colors.white),
+            ),
+            appBarTheme: AppBarTheme(
+              color: Colors.amber[600],
+            ),
+            // buttonTheme: ButtonThemeData(buttonColor: Colors.black),
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.pink),
+                // shadowColor: MaterialStateProperty.all(Colors.blue[600]),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                  RoundedRectangleBorder(
+                    side: BorderSide(
+                      color: Colors.amber[600]!,
+                      width: 2,
+                      style: BorderStyle.solid,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ),
+            ),
           ),
           debugShowCheckedModeBanner: false,
           initialRoute: RouteManager.loginScreen,

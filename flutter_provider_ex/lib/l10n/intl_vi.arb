@@ -4,5 +4,6 @@
     "labelPass":"Mật khẩu",
     "labelHeader":"Tiêu Đề",
     "lableLogout": "Đăng xuất",
-    "labelName": "Tên"
+    "labelName": "Tên",
+    "labelContact": "Liên hệ"
 }

@@ -88,10 +88,7 @@ class RouteManager {
           appBar: AppBar(
             title: Text(
               titleAppBar,
-              style: TextStyle(
-                color: context.watch<LoginController>().getColor,
-                fontSize: context.watch<LoginController>().getDefaultFontSize,
-              ),
+              style: Theme.of(context).textTheme.caption,
             ),
             automaticallyImplyLeading: automaticallyImplyLeading,
             actions: [

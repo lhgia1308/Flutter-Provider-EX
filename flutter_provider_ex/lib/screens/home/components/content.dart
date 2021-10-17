@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_provider_ex/controllers/login_controller.dart';
 import 'package:flutter_provider_ex/generated/l10n.dart';
 import 'package:flutter_provider_ex/models/user_detail.dart';
@@ -53,17 +54,17 @@ class HomeContent extends StatelessWidget {
         //Shown id
         Text(
           "ID: ${_idUser}",
-          style: context.watch<LoginController>().getDefaultTextStyle(),
+          style: Theme.of(context).textTheme.bodyText2,
         ),
         //Show name
         Text(
           "${S.of(context).labelName}: ${_displayName}",
-          style: context.watch<LoginController>().getDefaultTextStyle(),
+          style: Theme.of(context).textTheme.bodyText2,
         ),
         //Show email
         Text(
           "Email: ${_email}",
-          style: context.watch<LoginController>().getDefaultTextStyle(),
+          style: Theme.of(context).textTheme.bodyText2,
         ),
         // ElevatedButton(
         //   child: Text(
@@ -81,9 +82,10 @@ class HomeContent extends StatelessWidget {
         //   },
         // ),
         ElevatedButton(
+          style: Theme.of(context).elevatedButtonTheme.style,
           child: Text(
             "Contact",
-            style: context.watch<LoginController>().getDefaultTextStyle(),
+            style: Theme.of(context).textTheme.bodyText2,
           ),
           onPressed: () {
             Navigator.of(context).pushNamed(RouteManager.contactScreen);

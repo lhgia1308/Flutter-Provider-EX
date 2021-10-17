@@ -1,7 +1,9 @@
+import 'dart:ui';
+
 class Setting {
   bool? allowNotification;
   bool? allowNewsletter;
-  String? language;
+  Locale? language;
 
   Setting({this.allowNewsletter, this.allowNotification, this.language});
 

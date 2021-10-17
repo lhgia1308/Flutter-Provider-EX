@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Center(
               child: Text(
                 '${errText}',
-                style: TextStyle(color: Colors.red),
+                style: Theme.of(context).textTheme.bodyText1,
               ),
             ),
             const SizedBox(
@@ -103,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ElevatedButton(
               child: Text(
                 "Sign in Facebook",
-                style: context.watch<LoginController>().getDefaultTextStyle(),
+                style: Theme.of(context).textTheme.bodyText2,
               ),
               onPressed: () {
                 _loginFacebook();
@@ -143,12 +143,13 @@ class _LoginScreenState extends State<LoginScreen> {
     return ElevatedButton(
       child: Text(
         "Sign in Google",
-        style: context.watch<LoginController>().getDefaultTextStyle(),
+        style: Theme.of(context).textTheme.bodyText2,
       ),
+      style: Theme.of(context).elevatedButtonTheme.style,
       onPressed: () async {
         UserDetail? _newUser;
         await Provider.of<LoginController>(context, listen: false)
-            .googleLogin();
+            .googleLogin(context);
         _newUser =
             Provider.of<LoginController>(context, listen: false).getUserDetail;
         // if (userDetail!.id == null) userDetail.id = Uuid().v4();
@@ -172,23 +173,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _loginButton(BuildContext context) {
     return ElevatedButton(
-      child: const Text('ENTER'),
-      onPressed: () async {
-        var err = validateData(context);
-        if (err.isEmpty) {
-          await Navigator.of(context)
-              .pushNamed(RouteManager.homeScreen, arguments: {
-            "username": userNameController.text,
-            "pass": passController.text,
-          });
-          //Save data into Shared
-          // await UserSimplePreferences.setUser(user)
-        }
-      },
-      style: ElevatedButton.styleFrom(
-        primary: Colors.blue,
-      ),
-    );
+        child: Text(
+          'Enter',
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+        onPressed: () async {
+          var err = validateData(context);
+          if (err.isEmpty) {
+            await Navigator.of(context)
+                .pushNamed(RouteManager.homeScreen, arguments: {
+              "username": userNameController.text,
+              "pass": passController.text,
+            });
+            //Save data into Shared
+            // await UserSimplePreferences.setUser(user)
+          }
+        },
+        style: Theme.of(context).elevatedButtonTheme.style);
   }
 
   String validateData(BuildContext context) {
