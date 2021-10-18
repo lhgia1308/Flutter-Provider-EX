@@ -70,117 +70,117 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _loginUI() {
-    return Center(
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _buildLanguageDropDown(),
-            Text(
-              S.of(context).welcomeText,
-              style: Theme.of(context).textTheme.headline1,
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _buildLanguageDropDown(),
+          Text(
+            S.of(context).welcomeText,
+            style: Theme.of(context).textTheme.headline1,
+          ),
+          TextFormField(
+            focusNode: _focusUserName,
+            controller: userNameController,
+            decoration: InputDecoration(
+              hintText: S.of(context).labelUserName,
             ),
-            TextFormField(
-              focusNode: _focusUserName,
-              controller: userNameController,
-              decoration: InputDecoration(
-                hintText: S.of(context).labelUserName,
-              ),
+          ),
+          TextFormField(
+            focusNode: _focusPass,
+            controller: passController,
+            decoration: InputDecoration(
+              hintText: S.of(context).labelPass,
             ),
-            TextFormField(
-              focusNode: _focusPass,
-              controller: passController,
-              decoration: InputDecoration(
-                hintText: S.of(context).labelPass,
-              ),
-              obscureText: true,
+            obscureText: true,
+          ),
+          Center(
+            child: Text(
+              '${errText}',
+              style: Theme.of(context).textTheme.bodyText1,
             ),
-            Center(
-              child: Text(
-                '${errText}',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          _loginButton(context),
+          _logInGoogle(context),
+          ElevatedButton(
+            child: Text(
+              "Sign in Facebook",
+              style: Theme.of(context).textTheme.bodyText2,
             ),
-            const SizedBox(
-              height: 24,
-            ),
-            _loginButton(context),
-            _logInGoogle(context),
-            ElevatedButton(
-              child: Text(
-                "Sign in Facebook",
-                style: Theme.of(context).textTheme.bodyText2,
-              ),
-              onPressed: () {
-                _loginFacebook();
-              },
-            ),
-            //Select language
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                //US language
-                IconButton(
-                  onPressed: () {
-                    context.read<LanguageChangeProvider>().changeLocale("us");
-                  },
-                  icon: SvgPicture.asset(
-                    "assets/countries/us.svg",
-                  ),
-                ),
-                //US language
-                IconButton(
-                  onPressed: () {
-                    context.read<LanguageChangeProvider>().changeLocale("vi");
-                  },
-                  icon: SvgPicture.asset(
-                    "assets/countries/vn.svg",
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
+            onPressed: () {
+              _loginFacebook();
+            },
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildLanguageDropDown() {
-    return DropdownButton(
-      dropdownColor: Theme.of(context).scaffoldBackgroundColor,
-      underline: SizedBox(),
-      icon: SvgPicture.asset(
-        _selectLanguage!.imagePath!,
-        height: 25,
-        width: 25,
-      ),
-      items: getLanguages.map((language) {
-        return DropdownMenuItem(
-          alignment: Alignment.center,
-          value: language,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+    return Align(
+      alignment: Alignment.topRight,
+      child: Container(
+        child: DropdownButton(
+          dropdownColor: Theme.of(context).scaffoldBackgroundColor,
+          underline: SizedBox(),
+          icon: Row(
             children: [
+              const Icon(Icons.language),
+              const Icon(Icons.keyboard_arrow_down),
               SvgPicture.asset(
-                language.imagePath!,
-                height: 25,
-                width: 25,
+                _selectLanguage!.imagePath!,
+                height: 19,
+                width: 19,
               ),
-              const SizedBox(width: 5),
-              Text(language.name!)
             ],
           ),
-        );
-      }).toList(),
-      onChanged: (Language? language) {
-        setState(() {
-          _selectLanguage = language;
-        });
-        context
-            .read<LanguageChangeProvider>()
-            .changeLocale(_selectLanguage!.languageCode!);
-      },
+          items: getLanguages.map((language) {
+            return DropdownMenuItem(
+                alignment: Alignment.topLeft,
+                value: language,
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 3.0),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      top: BorderSide(width: 1.0, color: Colors.lightBlue),
+                      bottom: BorderSide(width: 1.0, color: Colors.lightBlue),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            language.imagePath!,
+                            // width: 19,
+                            height: 19,
+                          ),
+                          // const SizedBox(width: 5),
+                          // Text(language.name!,
+                          //     style: Theme.of(context).textTheme.bodyText1)
+                        ],
+                      ),
+                    ],
+                  ),
+                ));
+          }).toList(),
+          onChanged: (Language? language) {
+            setState(() {
+              _selectLanguage = language;
+            });
+            context
+                .read<LanguageChangeProvider>()
+                .changeLocale(_selectLanguage!.languageCode!);
+          },
+        ),
+      ),
     );
   }
 

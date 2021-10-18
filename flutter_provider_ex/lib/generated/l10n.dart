@@ -109,6 +109,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Contact`
+  String get labelContact {
+    return Intl.message(
+      'Contact',
+      name: 'labelContact',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
