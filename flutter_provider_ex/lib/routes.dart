@@ -5,8 +5,11 @@ import 'package:flutter_provider_ex/screens/home/home.dart';
 import 'package:flutter_provider_ex/screens/login.dart';
 
 import 'package:flutter_provider_ex/constrants.dart';
+import 'package:flutter_provider_ex/widgets/responsive.dart';
+import 'package:flutter_provider_ex/widgets/side_menu.dart';
 import 'package:provider/provider.dart';
 
+import 'controllers/menu_controller.dart';
 import 'models/user_detail.dart';
 
 class RouteManager {
@@ -73,6 +76,7 @@ class RouteManager {
           parastr["appBar"]["automaticallyImplyLeading"];
       Widget widget = parastr["widget"];
       BuildContext context = parastr["buildContext"];
+      //Login Screen
       if (titleAppBar.isEmpty) {
         result = Scaffold(
           body: SafeArea(
@@ -83,14 +87,26 @@ class RouteManager {
           ),
         );
       }
+      //Logined Screen
       if (titleAppBar.isNotEmpty) {
         result = Scaffold(
+          key: context.read<MenuController>().scaffoldKey,
+          drawer: SideMenu(),
           appBar: AppBar(
             title: Text(
               titleAppBar,
               style: Theme.of(context).textTheme.caption,
             ),
-            automaticallyImplyLeading: automaticallyImplyLeading,
+            // automaticallyImplyLeading: automaticallyImplyLeading,
+            //Icon Menu
+            leading: Builder(
+              builder: (BuildContext context) {
+                return IconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: context.read<MenuController>().controlMenu,
+                );
+              },
+            ),
             actions: [
               //Button logout
               IconButton(
@@ -111,7 +127,17 @@ class RouteManager {
           body: SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(10),
-              child: widget,
+              child: Row(
+                children: [
+                  widget
+                  // if (Responsive.isDesktop(context))
+                  //   Expanded(child: SideMenu()),
+                  // Expanded(
+                  //   flex: 5,
+                  //   child: widget,
+                  // )
+                ],
+              ),
             ),
           ),
         );

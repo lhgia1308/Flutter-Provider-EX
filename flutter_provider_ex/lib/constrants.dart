@@ -13,6 +13,25 @@ Map<dynamic, dynamic> configPara = {
   "textStyleDefault": TextStyle(fontSize: 30.0, color: Colors.white)
 };
 
+ElevatedButtonThemeData elevatedButtonThemeData() => ElevatedButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(Colors.cyan),
+        // shadowColor: MaterialStateProperty.all(Colors.blue[600]),
+        shape: MaterialStateProperty.all<OutlinedBorder>(
+          RoundedRectangleBorder(
+            side: BorderSide(
+              color: Colors.amber[600]!,
+              width: 1,
+              style: BorderStyle.solid,
+            ),
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+      ),
+    );
+
+const double defaultFontSize = 17.0;
+
 List<Language> getLanguages = <Language>[
   Language(1, 'English', 'en', "assets/countries/us.svg"),
   Language(2, 'Vietnamese', 'vi', "assets/countries/vi.svg"),

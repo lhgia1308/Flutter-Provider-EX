@@ -81,16 +81,6 @@ class HomeContent extends StatelessWidget {
         //     //     .setColorText(Colors.black);
         //   },
         // ),
-        ElevatedButton(
-          style: Theme.of(context).elevatedButtonTheme.style,
-          child: Text(
-            "Contact",
-            style: Theme.of(context).textTheme.bodyText2,
-          ),
-          onPressed: () {
-            Navigator.of(context).pushNamed(RouteManager.contactScreen);
-          },
-        ),
       ],
     );
   }

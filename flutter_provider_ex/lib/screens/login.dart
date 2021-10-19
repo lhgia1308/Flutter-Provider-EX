@@ -39,6 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
   List<UserDetail>? users;
   Language? _selectLanguage =
       Language(1, 'English', 'en', "assets/countries/us.svg");
+  bool _obscureText = true;
 
   @override
   void initState() {
@@ -78,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
           _buildLanguageDropDown(),
           Text(
             S.of(context).welcomeText,
-            style: Theme.of(context).textTheme.headline1,
+            style: Theme.of(context).textTheme.headline2,
           ),
           TextFormField(
             focusNode: _focusUserName,
@@ -92,8 +93,18 @@ class _LoginScreenState extends State<LoginScreen> {
             controller: passController,
             decoration: InputDecoration(
               hintText: S.of(context).labelPass,
+              suffixIcon: GestureDetector(
+                child: _obscureText
+                    ? Icon(Icons.visibility)
+                    : Icon(Icons.visibility_off),
+                onTap: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+              ),
             ),
-            obscureText: true,
+            obscureText: _obscureText,
           ),
           Center(
             child: Text(
@@ -144,12 +155,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 value: language,
                 child: Container(
                   margin: EdgeInsets.only(bottom: 3.0),
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      top: BorderSide(width: 1.0, color: Colors.lightBlue),
-                      bottom: BorderSide(width: 1.0, color: Colors.lightBlue),
-                    ),
-                  ),
+                  // decoration: const BoxDecoration(
+                  //   border: Border(
+                  //     top: BorderSide(width: 1.0, color: Colors.lightBlue),
+                  //     bottom: BorderSide(width: 1.0, color: Colors.lightBlue),
+                  //   ),
+                  // ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -162,9 +173,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             // width: 19,
                             height: 19,
                           ),
-                          // const SizedBox(width: 5),
-                          // Text(language.name!,
-                          //     style: Theme.of(context).textTheme.bodyText1)
+                          const SizedBox(width: 5),
+                          Text(language.name!,
+                              style: Theme.of(context).textTheme.bodyText1)
                         ],
                       ),
                     ],
