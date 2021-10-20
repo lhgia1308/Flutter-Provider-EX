@@ -8,12 +8,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 class LoginController with ChangeNotifier {
-  var _googleSignIn = GoogleSignIn();
+  final _googleSignIn = GoogleSignIn();
   GoogleSignInAccount? googleSignInAccount;
   UserDetail? _userDetail;
   Color? _colorText = Colors.white;
-  double _defaultFontSize = 25.0;
-  TextStyle? _defaultTextStyle;
+  final double _defaultFontSize = 25.0;
   Color? defaultBackground = Colors.blueGrey[300];
 
   Color? get getDefaultBackground => defaultBackground;

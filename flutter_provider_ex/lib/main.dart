@@ -44,26 +44,17 @@ class MyApp extends StatelessWidget {
             fontFamily: "Lora",
             scaffoldBackgroundColor: Colors.blueGrey[400],
             primaryColor: Colors.blue,
-            textTheme: const TextTheme(
-              bodyText1:
-                  TextStyle(fontSize: defaultFontSize, color: Colors.white
-                      // fontWeight: FontWeight.bold,
-                      ),
-              //Default
-              bodyText2:
-                  TextStyle(fontSize: defaultFontSize, color: Colors.white),
-              caption: TextStyle(
-                fontSize: defaultFontSize,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-              headline1: TextStyle(color: Colors.white),
+            textTheme: TextTheme(
+              bodyText1: bodyText1,
+              //Default bodyText2
+              bodyText2: bodyText2,
+              caption: caption,
+              headline1: headLine1,
             ),
             appBarTheme: AppBarTheme(
               color: Colors.amber[600],
             ),
-            // buttonTheme: ButtonThemeData(buttonColor: Colors.black),
-            elevatedButtonTheme: elevatedButtonThemeData(),
+            elevatedButtonTheme: elevatedButtonThemeData,
           ),
           debugShowCheckedModeBanner: false,
           initialRoute: RouteManager.loginScreen,

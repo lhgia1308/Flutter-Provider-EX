@@ -25,6 +25,13 @@ class Responsive extends StatelessWidget {
   static bool isDesktop(BuildContext context) =>
       MediaQuery.of(context).size.width >= 1100;
 
+  static bool isLandscape(BuildContext context) =>
+      MediaQuery.of(context).orientation == Orientation.landscape;
+// We're using device aspect ratio to determine Tab or Phone
+  static bool isTab(BuildContext context) =>
+      MediaQuery.of(context).size.aspectRatio >= 0.74 &&
+      MediaQuery.of(context).size.aspectRatio < 1.5;
+
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;

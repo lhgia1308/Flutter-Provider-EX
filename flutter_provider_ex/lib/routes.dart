@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_ex/constrants.dart';
 import 'package:flutter_provider_ex/controllers/login_controller.dart';
 import 'package:flutter_provider_ex/screens/contact/contact.dart';
-import 'package:flutter_provider_ex/screens/home/home.dart';
+import 'package:flutter_provider_ex/screens/home1/home.dart';
 import 'package:flutter_provider_ex/screens/login.dart';
+import 'package:flutter_provider_ex/screens/main/main.dart';
+import 'package:flutter_provider_ex/widgets/app_bar.dart';
+import 'package:flutter_provider_ex/widgets/bottom_nav_bar.dart';
 
-import 'package:flutter_provider_ex/constrants.dart';
-import 'package:flutter_provider_ex/widgets/responsive.dart';
 import 'package:flutter_provider_ex/widgets/side_menu.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import 'controllers/menu_controller.dart';
@@ -16,6 +19,7 @@ class RouteManager {
   static const String loginScreen = '/';
   static const String homeScreen = '/home';
   static const String contactScreen = '/contact';
+  static const String mainScreen = '/main';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     Map<dynamic, dynamic> parastr = {};
@@ -34,32 +38,61 @@ class RouteManager {
     switch (settings.name) {
       case loginScreen:
         parastr = {
-          "appBar": {
-            "title": "",
-            "automaticallyImplyLeading": true,
-          },
           "widget": LoginScreen(argument: args),
-          "buildContext": context
         };
         break;
       case homeScreen:
         parastr = {
-          "appBar": {
-            "title": "Home Screen",
-            "automaticallyImplyLeading": false,
-          },
-          "widget": HomeScreen(),
-          "buildContext": context
+          "widget": HomeScreen1(),
+          "appBar": buildAppBar(
+            context,
+            title: "Welcome Screen",
+            leading: IconButton(
+              onPressed: () {},
+              icon: ClipOval(
+                child: Image.asset("assets/images/menu.png"),
+              ),
+            ),
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: Image.asset("assets/images/avatar.png"),
+              )
+            ],
+            automaticallyImplyLeading: false,
+          )
         };
         break;
       case contactScreen:
         parastr = {
-          "appBar": {
-            "title": "Contact Screen",
-            "automaticallyImplyLeading": true,
-          },
+          "appBar": buildAppBar(
+            context,
+            title: "Contact Screen",
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: Image.asset("assets/images/avatar.png"),
+              )
+            ],
+            automaticallyImplyLeading: true,
+          ),
           "widget": ContactScreen(),
-          "buildContext": context
+        };
+        break;
+      case mainScreen:
+        parastr = {
+          "appBar": buildAppBar(
+            context,
+            title: "Main Screen",
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: Image.asset("assets/images/avatar.png"),
+              )
+            ],
+            automaticallyImplyLeading: true,
+          ),
+          "widget": MainScreen(),
         };
         break;
       default:
@@ -71,73 +104,65 @@ class RouteManager {
   static Widget scafFoldDefault(parastr) {
     Widget result = Container();
     try {
-      String titleAppBar = parastr["appBar"]["title"];
-      bool automaticallyImplyLeading =
-          parastr["appBar"]["automaticallyImplyLeading"];
+      AppBar appBar = parastr["appBar"];
       Widget widget = parastr["widget"];
-      BuildContext context = parastr["buildContext"];
       //Login Screen
-      if (titleAppBar.isEmpty) {
+      if (appBar == null) {
         result = Scaffold(
           body: SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(10),
               child: widget,
             ),
           ),
         );
       }
       //Logined Screen
-      if (titleAppBar.isNotEmpty) {
+      if (appBar != null) {
         result = Scaffold(
-          key: context.read<MenuController>().scaffoldKey,
-          drawer: SideMenu(),
-          appBar: AppBar(
-            title: Text(
-              titleAppBar,
-              style: Theme.of(context).textTheme.caption,
-            ),
-            // automaticallyImplyLeading: automaticallyImplyLeading,
-            //Icon Menu
-            leading: Builder(
-              builder: (BuildContext context) {
-                return IconButton(
-                  icon: const Icon(Icons.menu),
-                  onPressed: context.read<MenuController>().controlMenu,
-                );
-              },
-            ),
-            actions: [
-              //Button logout
-              IconButton(
-                onPressed: () async {
-                  await Provider.of<LoginController>(context, listen: false)
-                      .googleLogout();
-                  UserDetail? userDetail =
-                      Provider.of<LoginController>(context, listen: false)
-                          .getUserDetail;
-                  Navigator.of(context).pushReplacementNamed(
-                      RouteManager.loginScreen,
-                      arguments: userDetail);
-                },
-                icon: const Icon(Icons.logout),
-              )
-            ],
-          ),
+          // key: context.read<MenuController>().scaffoldKey,
+          // drawer: SideMenu(),
+          appBar: appBar,
           body: SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  widget
-                  // if (Responsive.isDesktop(context))
-                  //   Expanded(child: SideMenu()),
-                  // Expanded(
-                  //   flex: 5,
-                  //   child: widget,
-                  // )
-                ],
-              ),
+              child: widget,
+            ),
+          ),
+          bottomNavigationBar: Container(
+            height: 60,
+            width: double.infinity,
+            margin: EdgeInsets.all(15),
+            padding: EdgeInsets.symmetric(horizontal: 40),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 20,
+                  offset: Offset(0, 3),
+                  color: Colors.black.withAlpha(20),
+                )
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                NavItem(
+                  icon: "assets/icons/home.svg",
+                  isActive: true,
+                ),
+                NavItem(
+                  icon: "assets/icons/calendar.svg",
+                  isActive: false,
+                ),
+                NavItem(
+                  icon: "assets/icons/search.svg",
+                  isActive: false,
+                ),
+                NavItem(
+                  icon: "assets/icons/user.svg",
+                  isActive: false,
+                ),
+              ],
             ),
           ),
         );

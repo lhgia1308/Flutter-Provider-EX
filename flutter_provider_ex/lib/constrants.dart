@@ -13,7 +13,26 @@ Map<dynamic, dynamic> configPara = {
   "textStyleDefault": TextStyle(fontSize: 30.0, color: Colors.white)
 };
 
-ElevatedButtonThemeData elevatedButtonThemeData() => ElevatedButtonThemeData(
+const kPrimaryColor = Color(0XFF6A62B7);
+const kBackgroundColor = Color(0XFFE5E5E5);
+const kTextColor = Color(0XFF2C2C2C);
+const kCardInfoBG = Color(0XFF686868);
+const kRatingStarColor = Color(0XFFF4D150);
+const kInputBackgroundColor = Color(0XFFF3F3F3);
+const kPrimaryLightColor = Color(0XFF897CFF);
+
+TextStyle get bodyText1 =>
+    const TextStyle(fontSize: defaultFontSize, color: Colors.white);
+TextStyle get bodyText2 =>
+    const TextStyle(fontSize: defaultFontSize, color: Colors.white);
+TextStyle get caption => const TextStyle(
+      fontSize: defaultFontSize,
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+    );
+TextStyle get headLine1 => const TextStyle(color: Colors.white);
+
+ElevatedButtonThemeData get elevatedButtonThemeData => ElevatedButtonThemeData(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.cyan),
         // shadowColor: MaterialStateProperty.all(Colors.blue[600]),
