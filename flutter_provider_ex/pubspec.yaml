@@ -56,6 +56,8 @@ dependencies:
   image_picker: ^0.8.4+2
   #Path Provider
   path_provider: ^2.0.5
+  #GetX
+  get: ^4.3.8
 
 
 dev_dependencies:

@@ -104,7 +104,7 @@ class RouteManager {
   static Widget scafFoldDefault(parastr) {
     Widget result = Container();
     try {
-      AppBar appBar = parastr["appBar"];
+      var appBar = parastr["appBar"];
       Widget widget = parastr["widget"];
       //Login Screen
       if (appBar == null) {
