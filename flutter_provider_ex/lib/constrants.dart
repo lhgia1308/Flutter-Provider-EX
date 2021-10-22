@@ -56,3 +56,13 @@ List<Language> getLanguages = <Language>[
   Language(2, 'Vietnamese', 'vi', "assets/countries/vi.svg"),
   // Language(3, 'ឡាវ', 'la', "assets/countries/la.svg"),
 ];
+List<String> placesCategoris = [
+  "Popular",
+  "Featured",
+  "Most Vissited",
+  "Europe",
+  "Asia",
+  "Africa",
+  "America",
+  "Australia"
+];
