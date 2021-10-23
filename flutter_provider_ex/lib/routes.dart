@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_ex/constrants.dart';
-import 'package:flutter_provider_ex/controllers/login_controller.dart';
 import 'package:flutter_provider_ex/screens/contact/contact.dart';
+import 'package:flutter_provider_ex/screens/details/detail.dart';
 import 'package:flutter_provider_ex/screens/home1/home.dart';
 import 'package:flutter_provider_ex/screens/login.dart';
 import 'package:flutter_provider_ex/screens/main/main.dart';
 import 'package:flutter_provider_ex/widgets/app_bar.dart';
 import 'package:flutter_provider_ex/widgets/bottom_nav_bar.dart';
 
-import 'package:flutter_provider_ex/widgets/side_menu.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-
-import 'controllers/menu_controller.dart';
-import 'models/user_detail.dart';
-
 class RouteManager {
   static const String loginScreen = '/';
   static const String homeScreen = '/home';
   static const String contactScreen = '/contact';
   static const String mainScreen = '/main';
+  static const String detailScreen = '/detail';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     Map<dynamic, dynamic> parastr = {};
@@ -77,6 +70,24 @@ class RouteManager {
             automaticallyImplyLeading: true,
           ),
           "widget": ContactScreen(),
+        };
+        break;
+      case detailScreen:
+        parastr = {
+          "appBar": buildAppBar(
+            context,
+            title: "Detail Screen",
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: Image.asset("assets/images/avatar.png"),
+              )
+            ],
+            automaticallyImplyLeading: true,
+          ),
+          "widget": DetailScreen(
+            argument: args,
+          ),
         };
         break;
       case mainScreen:

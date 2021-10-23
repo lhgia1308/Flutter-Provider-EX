@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_ex/constrants.dart';
 import 'package:flutter_provider_ex/controllers/get_controller.dart';
 import 'package:flutter_provider_ex/models/place.dart';
-import 'package:flutter_provider_ex/screens/main/components/placecard.dart';
+import 'package:flutter_provider_ex/screens/main/components/place_card.dart';
+import 'package:flutter_provider_ex/utils/responsive.dart';
 import 'package:get/get.dart';
 
 class Sider extends StatelessWidget {
@@ -20,7 +21,7 @@ class Sider extends StatelessWidget {
     Timer.periodic(Duration(seconds: 5), (Timer timer) {
       int sliderLen = demoPlaces.length;
       if (controller.currentSlider < sliderLen - 1) {
-        controller.increaseSlider();
+        controller.increaseSlider(1);
       } else {
         controller.setCurrentSilder(0);
       }
@@ -32,11 +33,11 @@ class Sider extends StatelessWidget {
     });
     return SizedBox(
       width: double.infinity,
-      height: 260,
+      height: 240,
       child: Column(
         children: [
           Expanded(
-            flex: 3,
+            flex: 5,
             child: PageView.builder(
               onPageChanged: (value) {
                 controller.setCurrentSilder(value);
@@ -49,7 +50,8 @@ class Sider extends StatelessWidget {
             ),
           ),
           GetBuilder<GetController>(
-            builder: (_) => Expanded(
+            builder: (_) => Container(
+              margin: const EdgeInsets.only(top: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(

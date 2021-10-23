@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_ex/models/place.dart';
 
 import 'models/language.dart';
 
@@ -65,4 +66,48 @@ List<String> placesCategoris = [
   "Africa",
   "America",
   "Australia"
+];
+
+// demo places
+List<Place> demoPlaces = [
+  Place(
+      id: 1,
+      name: 'Nothern Mountain',
+      description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes.',
+      location: 'Honshu, Japan',
+      image: 'assets/images/place1.jpg',
+      rating: 4),
+  Place(
+      id: 2,
+      name: 'Mount Fuji',
+      description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes.',
+      location: 'Honshu, Japan',
+      image: 'assets/images/place2.jpg',
+      rating: 3),
+  Place(
+      id: 3,
+      name: 'Greenough',
+      description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes.',
+      location: 'Honshu, Japan',
+      image: 'assets/images/place3.jpg',
+      rating: 5),
+  Place(
+      id: 4,
+      name: 'Mount Heaven',
+      description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes.',
+      location: 'Honshu, Japan',
+      image: 'assets/images/place4.jpg',
+      rating: 3),
+  Place(
+      id: 5,
+      name: 'Mount Heaven',
+      description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes.',
+      location: 'Honshu, Japan',
+      image: 'assets/images/place4.jpg',
+      rating: 3),
 ];

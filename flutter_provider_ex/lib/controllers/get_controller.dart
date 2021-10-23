@@ -8,8 +8,8 @@ class GetController extends GetxController {
     update();
   }
 
-  void increaseSlider() {
-    currentSlider++;
+  void increaseSlider(int step) {
+    currentSlider = currentSlider + step;
     update();
   }
 }
