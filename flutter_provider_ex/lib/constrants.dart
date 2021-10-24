@@ -38,13 +38,13 @@ ElevatedButtonThemeData get elevatedButtonThemeData => ElevatedButtonThemeData(
       style: ButtonStyle(
         padding: MaterialStateProperty.all<EdgeInsets>(
             EdgeInsets.symmetric(vertical: 10, horizontal: 30)),
-        backgroundColor: MaterialStateProperty.all(Colors.cyan),
+        backgroundColor: MaterialStateProperty.all(Colors.blue[900]),
         shadowColor: MaterialStateProperty.all(Colors.blue[600]),
         shape: MaterialStateProperty.all<OutlinedBorder>(
           RoundedRectangleBorder(
             side: BorderSide(
-              color: Colors.amber[600]!,
-              width: 0,
+              color: Colors.white,
+              width: 1,
               style: BorderStyle.solid,
             ),
             borderRadius: BorderRadius.circular(40),

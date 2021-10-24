@@ -7,13 +7,19 @@ class Description extends StatelessWidget {
   Place place;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Description", style: Theme.of(context).textTheme.caption),
-        const SizedBox(height: 10),
-        Text(place.description, style: Theme.of(context).textTheme.bodyText2),
-      ],
+    return Container(
+      height: 250,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Description", style: Theme.of(context).textTheme.caption),
+            const SizedBox(height: 10),
+            Text(place.description,
+                style: Theme.of(context).textTheme.bodyText2),
+          ],
+        ),
+      ),
     );
   }
 }

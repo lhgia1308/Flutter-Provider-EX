@@ -50,8 +50,11 @@ class RouteManager {
             ),
             actions: [
               IconButton(
-                onPressed: () {},
-                icon: Image.asset("assets/images/avatar.png"),
+                onPressed: () {
+                  Navigator.of(context)
+                      .popAndPushNamed(RouteManager.loginScreen);
+                },
+                icon: Icon(Icons.logout),
               )
             ],
             automaticallyImplyLeading: false,

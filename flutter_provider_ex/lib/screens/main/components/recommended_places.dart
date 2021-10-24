@@ -28,15 +28,12 @@ class RecommendedPlaces extends StatelessWidget {
           child: Stack(
             alignment: const Alignment(-0.9, 1),
             children: [
-              Hero(
-                tag: demoPlaces[index].id,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    demoPlaces[index].image,
-                    height: 200,
-                    fit: BoxFit.cover,
-                  ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.asset(
+                  demoPlaces[index].image,
+                  height: 200,
+                  fit: BoxFit.cover,
                 ),
               ),
               CardInfo(place: demoPlaces[index], scale: 0.6)

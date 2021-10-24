@@ -72,14 +72,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _loginUI() {
     return Container(
+      padding: const EdgeInsets.all(20),
+      alignment: Alignment.center,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        // crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildLanguageDropDown(),
           Text(
             S.of(context).welcomeText,
             style: Theme.of(context).textTheme.headline2,
+            textAlign: TextAlign.center,
           ),
           TextFormField(
             focusNode: _focusUserName,
@@ -134,63 +137,58 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildLanguageDropDown() {
     return Align(
       alignment: Alignment.topRight,
-      child: Container(
-        child: DropdownButton(
-          dropdownColor: Theme.of(context).scaffoldBackgroundColor,
-          underline: SizedBox(),
-          icon: Row(
-            children: [
-              const Icon(Icons.language),
-              const Icon(Icons.keyboard_arrow_down),
-              SvgPicture.asset(
-                _selectLanguage!.imagePath!,
-                height: 19,
-                width: 19,
-              ),
-            ],
-          ),
-          items: getLanguages.map((language) {
-            return DropdownMenuItem(
-                alignment: Alignment.topLeft,
-                value: language,
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 3.0),
-                  // decoration: const BoxDecoration(
-                  //   border: Border(
-                  //     top: BorderSide(width: 1.0, color: Colors.lightBlue),
-                  //     bottom: BorderSide(width: 1.0, color: Colors.lightBlue),
-                  //   ),
-                  // ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+      child: DropdownButton(
+        dropdownColor: Theme.of(context).scaffoldBackgroundColor,
+        underline: SizedBox(),
+        icon: Row(
+          children: [
+            const Icon(Icons.language),
+            const Icon(Icons.keyboard_arrow_down),
+            SvgPicture.asset(
+              _selectLanguage!.imagePath!,
+              height: 19,
+              width: 19,
+            ),
+          ],
+        ),
+        items: getLanguages.map((language) {
+          return DropdownMenuItem(
+            // alignment: Alignment.topLeft,
+            value: language,
+            child: Container(
+              // decoration:
+              // BoxDecoration(border: Border.all(color: Colors.black)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            language.imagePath!,
-                            // width: 19,
-                            height: 19,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(language.name!,
-                              style: Theme.of(context).textTheme.bodyText1)
-                        ],
+                      SvgPicture.asset(
+                        language.imagePath!,
+                        // width: 19,
+                        height: 19,
                       ),
+                      const SizedBox(width: 5),
+                      Text(language.name!,
+                          style: Theme.of(context).textTheme.bodyText1)
                     ],
                   ),
-                ));
-          }).toList(),
-          onChanged: (Language? language) {
-            setState(() {
-              _selectLanguage = language;
-            });
-            context
-                .read<LanguageChangeProvider>()
-                .changeLocale(_selectLanguage!.languageCode!);
-          },
-        ),
+                  const Divider()
+                ],
+              ),
+            ),
+          );
+        }).toList(),
+        onChanged: (Language? language) {
+          setState(() {
+            _selectLanguage = language;
+          });
+          context
+              .read<LanguageChangeProvider>()
+              .changeLocale(_selectLanguage!.languageCode!);
+        },
       ),
     );
   }
@@ -229,18 +227,6 @@ class _LoginScreenState extends State<LoginScreen> {
         if (_newUser != null) {
           Navigator.of(context).pushNamed(RouteManager.homeScreen);
         }
-
-        // if()
-        // if (_newUser != null) {
-        //   if (_idNewUser != _idOldUser) {
-        //     await UserSimplePreferences.addUsers(_newUser);
-        //     await UserSimplePreferences.setUser(_newUser);
-        //     setState(() {
-        //       userDetail = _newUser;
-        //     });
-        //   }
-        //   Navigator.of(context).pushNamed(RouteManager.homeScreen);
-        // }
       },
     );
   }
