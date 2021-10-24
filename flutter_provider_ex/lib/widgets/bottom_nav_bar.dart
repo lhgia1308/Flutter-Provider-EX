@@ -14,10 +14,9 @@ class NavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      // mainAxisAlignment: MainAxisAlignment.center,
-      // crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         IconButton(
+          iconSize: 10,
           onPressed: () {},
           icon: SvgPicture.asset(icon),
         ),
@@ -27,13 +26,13 @@ class NavItem extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: isActive ? kPrimaryColor : Colors.transparent,
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 6,
-                offset: Offset(0, -2),
-                color: isActive ? kPrimaryColor : Colors.transparent,
-              )
-            ],
+            // boxShadow: [
+            //   BoxShadow(
+            //     blurRadius: 6,
+            //     offset: Offset(0, -2),
+            //     color: isActive ? kPrimaryColor : Colors.transparent,
+            //   )
+            // ],
           ),
         )
       ],

@@ -31,7 +31,7 @@ class PlacesCategoris extends StatelessWidget {
                     style: TextStyle(
                         fontSize: defaultFontSize,
                         color: selectedIndex == index
-                            ? kPrimaryColor
+                            ? kBackgroundColor
                             : kTextColor),
                   ),
                 ),

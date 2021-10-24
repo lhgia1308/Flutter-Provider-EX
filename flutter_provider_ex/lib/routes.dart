@@ -7,6 +7,8 @@ import 'package:flutter_provider_ex/screens/main/main.dart';
 import 'package:flutter_provider_ex/widgets/app_bar.dart';
 import 'package:flutter_provider_ex/widgets/bottom_nav_bar.dart';
 
+import 'widgets/sliver_appbar.dart';
+
 class RouteManager {
   static const String loginScreen = '/';
   static const String homeScreen = '/home';
@@ -74,7 +76,8 @@ class RouteManager {
         break;
       case detailScreen:
         parastr = {
-          "appBar": buildAppBar(
+          "sliverAppBar": true,
+          "appBar": buildSliverAppBar(
             context,
             title: "Detail Screen",
             actions: [
@@ -116,6 +119,7 @@ class RouteManager {
     Widget result = Container();
     try {
       var appBar = parastr["appBar"];
+      bool sliverAppBar = parastr["sliverAppBar"] ?? false;
       Widget widget = parastr["widget"];
       //Login Screen
       if (appBar == null) {
@@ -130,18 +134,22 @@ class RouteManager {
       //Logined Screen
       if (appBar != null) {
         result = Scaffold(
+          extendBodyBehindAppBar: sliverAppBar,
           // key: context.read<MenuController>().scaffoldKey,
           // drawer: SideMenu(),
-          appBar: appBar,
-          body: SafeArea(
-            child: SingleChildScrollView(
-              child: widget,
-            ),
-          ),
+          appBar: sliverAppBar ? null : appBar,
+          body: sliverAppBar
+              ? CustomScrollView(
+                  slivers: [
+                    appBar,
+                    SliverList(delegate: SliverChildListDelegate([widget]))
+                  ],
+                )
+              : SafeArea(child: SingleChildScrollView(child: widget)),
           bottomNavigationBar: Container(
             height: 60,
             width: double.infinity,
-            margin: EdgeInsets.all(15),
+            margin: EdgeInsets.all(10),
             padding: EdgeInsets.symmetric(horizontal: 40),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),

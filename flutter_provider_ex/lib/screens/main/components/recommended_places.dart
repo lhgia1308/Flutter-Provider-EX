@@ -39,10 +39,7 @@ class RecommendedPlaces extends StatelessWidget {
                   ),
                 ),
               ),
-              CardInfo(
-                place: demoPlaces[index],
-                scale: 0.6,
-              )
+              CardInfo(place: demoPlaces[index], scale: 0.6)
             ],
           ),
         ),

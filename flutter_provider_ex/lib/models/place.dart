@@ -6,7 +6,8 @@ class Place {
   final String description;
   final String location;
   final String image;
-  final double rating;
+  final int rating;
+  final double price;
 
   Place({
     required this.id,
@@ -15,5 +16,6 @@ class Place {
     required this.location,
     required this.image,
     required this.rating,
+    required this.price,
   });
 }

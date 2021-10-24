@@ -21,6 +21,7 @@ const kCardInfoBG = Color(0XFF686868);
 const kRatingStarColor = Color(0XFFF4D150);
 const kInputBackgroundColor = Color(0XFFF3F3F3);
 const kPrimaryLightColor = Color(0XFF897CFF);
+final kButtonColor = Colors.purple[900]!;
 
 TextStyle get bodyText1 =>
     const TextStyle(fontSize: defaultFontSize, color: Colors.white);
@@ -28,29 +29,33 @@ TextStyle get bodyText2 =>
     const TextStyle(fontSize: defaultFontSize, color: Colors.white);
 TextStyle get caption => const TextStyle(
       fontSize: defaultFontSize,
-      color: Colors.white,
+      color: Colors.amber,
       fontWeight: FontWeight.bold,
     );
 TextStyle get headLine1 => const TextStyle(color: Colors.white);
 
 ElevatedButtonThemeData get elevatedButtonThemeData => ElevatedButtonThemeData(
       style: ButtonStyle(
+        padding: MaterialStateProperty.all<EdgeInsets>(
+            EdgeInsets.symmetric(vertical: 10, horizontal: 30)),
         backgroundColor: MaterialStateProperty.all(Colors.cyan),
-        // shadowColor: MaterialStateProperty.all(Colors.blue[600]),
+        shadowColor: MaterialStateProperty.all(Colors.blue[600]),
         shape: MaterialStateProperty.all<OutlinedBorder>(
           RoundedRectangleBorder(
             side: BorderSide(
               color: Colors.amber[600]!,
-              width: 1,
+              width: 0,
               style: BorderStyle.solid,
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(40),
           ),
         ),
       ),
     );
 
 const double defaultFontSize = 17.0;
+const double defaultPadding = 20.0;
+const double defaultMargin = 20.0;
 
 List<Language> getLanguages = <Language>[
   Language(1, 'English', 'en', "assets/countries/us.svg"),
@@ -71,43 +76,53 @@ List<String> placesCategoris = [
 // demo places
 List<Place> demoPlaces = [
   Place(
-      id: 1,
-      name: 'Nothern Mountain',
-      description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes.',
-      location: 'Honshu, Japan',
-      image: 'assets/images/place1.jpg',
-      rating: 4),
+    id: 1,
+    name: 'Nothern Mountain',
+    description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes.',
+    location: 'Honshu, Japan',
+    image: 'assets/images/place1.jpg',
+    rating: 4,
+    price: 300,
+  ),
   Place(
-      id: 2,
-      name: 'Mount Fuji',
-      description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes.',
-      location: 'Honshu, Japan',
-      image: 'assets/images/place2.jpg',
-      rating: 3),
+    id: 2,
+    name: 'Mount Fuji',
+    description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes.',
+    location: 'Honshu, Japan',
+    image: 'assets/images/place2.jpg',
+    rating: 3,
+    price: 300,
+  ),
   Place(
-      id: 3,
-      name: 'Greenough',
-      description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes.',
-      location: 'Honshu, Japan',
-      image: 'assets/images/place3.jpg',
-      rating: 5),
+    id: 3,
+    name: 'Greenough',
+    description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes.',
+    location: 'Honshu, Japan',
+    image: 'assets/images/place3.jpg',
+    rating: 1,
+    price: 400,
+  ),
   Place(
-      id: 4,
-      name: 'Mount Heaven',
-      description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes.',
-      location: 'Honshu, Japan',
-      image: 'assets/images/place4.jpg',
-      rating: 3),
+    id: 4,
+    name: 'Mount Heaven 1',
+    description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes.',
+    location: 'Honshu, Japan',
+    image: 'assets/images/place4.jpg',
+    rating: 3,
+    price: 500,
+  ),
   Place(
-      id: 5,
-      name: 'Mount Heaven',
-      description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes.',
-      location: 'Honshu, Japan',
-      image: 'assets/images/place4.jpg',
-      rating: 3),
+    id: 5,
+    name: 'Mount Heaven 2',
+    description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes.',
+    location: 'Honshu, Japan',
+    image: 'assets/images/place4.jpg',
+    rating: 3,
+    price: 600,
+  ),
 ];

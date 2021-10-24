@@ -15,7 +15,7 @@ class Sider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PageController _pageController = PageController(
-      viewportFraction: 0.9,
+      viewportFraction: 1,
       initialPage: 0,
     );
     Timer.periodic(Duration(seconds: 5), (Timer timer) {

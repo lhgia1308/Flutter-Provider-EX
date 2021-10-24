@@ -40,22 +40,7 @@ class CardInfo extends StatelessWidget {
                 ),
               ],
             ),
-            RateStar()
-            // SmoothStarRating(
-            //   rating: place.rating,
-            //   isReadOnly: false,
-            //   // size: 80,
-            //   filledIconData: Icons.star,
-            //   halfFilledIconData: Icons.star_half,
-            //   defaultIconData: Icons.star_border,
-            //   starCount: 5,
-            //   allowHalfRating: true,
-            //   spacing: 2.0,
-            //   onRated: (value) {
-            //     print("rating value -> $value");
-            //     // print("rating value dd -> ${value.truncate()}");
-            //   },
-            // )
+            RateStar(place: place)
           ],
         ),
       );

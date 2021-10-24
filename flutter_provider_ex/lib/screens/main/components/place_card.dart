@@ -13,7 +13,7 @@ class PlaceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(right: 20),
+      margin: const EdgeInsets.only(left: 20, right: 20),
       child: Stack(
         alignment: const Alignment(-0.9, 1),
         children: [
