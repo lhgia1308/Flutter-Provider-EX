@@ -19,7 +19,7 @@ class PlaceImage extends StatelessWidget {
       width: double.infinity,
       height: Responsive.isLandscape(context)
           ? _size.height * 1.5
-          : _size.height * 0.7,
+          : _size.height * 0.9,
       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
       child: ClipRRect(
         child: Image.asset(

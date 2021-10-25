@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_ex/screens/contact/contact.dart';
-import 'package:flutter_provider_ex/screens/details/detail.dart';
-import 'package:flutter_provider_ex/screens/home1/home.dart';
+import 'package:flutter_provider_ex/screens/temp1/detail1/detail.dart';
+import 'package:flutter_provider_ex/screens/temp2/home2/home2.dart';
 import 'package:flutter_provider_ex/screens/login.dart';
-import 'package:flutter_provider_ex/screens/main/main.dart';
+import 'package:flutter_provider_ex/screens/temp2/main2/main2.dart';
 import 'package:flutter_provider_ex/widgets/app_bar.dart';
 import 'package:flutter_provider_ex/widgets/bottom_nav_bar.dart';
 
@@ -38,10 +38,10 @@ class RouteManager {
         break;
       case homeScreen:
         parastr = {
-          "widget": HomeScreen1(),
+          "widget": HomeScreen2(),
           "appBar": buildAppBar(
             context,
-            title: "Welcome Screen",
+            title: "Welcome Screen 2",
             leading: IconButton(
               onPressed: () {},
               icon: ClipOval(
@@ -109,7 +109,7 @@ class RouteManager {
             ],
             automaticallyImplyLeading: true,
           ),
-          "widget": MainScreen(),
+          "widget": MainScreen2(),
         };
         break;
       default:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_ex/generated/l10n.dart';
 import 'package:flutter_provider_ex/models/place.dart';
 
 import 'models/language.dart';
@@ -33,6 +34,43 @@ TextStyle get caption => const TextStyle(
       fontWeight: FontWeight.bold,
     );
 TextStyle get headLine1 => const TextStyle(color: Colors.white);
+InputDecoration inputDecoration(BuildContext context, Widget suffixIcon) =>
+    InputDecoration(
+      border: InputBorder.none,
+      fillColor: kPrimaryColor,
+      hintText: S.of(context).labelPass,
+      suffixIcon: suffixIcon,
+    );
+
+Widget textField({
+  required BuildContext context,
+  required TextEditingController controller,
+  required Widget suffixIcon,
+  Icon? icon,
+  FocusNode? focusNode,
+  bool obscureText = false,
+  String? hintText,
+}) {
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(30),
+      color: kPrimaryColor.withAlpha(40),
+    ),
+    child: TextField(
+      focusNode: focusNode,
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        icon: icon,
+        border: InputBorder.none,
+        fillColor: kPrimaryColor,
+        hintText: hintText,
+        suffixIcon: suffixIcon,
+      ),
+    ),
+  );
+}
 
 ElevatedButtonThemeData get elevatedButtonThemeData => ElevatedButtonThemeData(
       style: ButtonStyle(

@@ -89,13 +89,15 @@ class _LoginScreenState extends State<LoginScreen> {
             controller: userNameController,
             decoration: InputDecoration(
               hintText: S.of(context).labelUserName,
+              border: InputBorder.none,
             ),
           ),
-          TextFormField(
-            focusNode: _focusPass,
-            controller: passController,
-            decoration: InputDecoration(
+          textField(
+              context: context,
+              controller: passController,
+              focusNode: _focusPass,
               hintText: S.of(context).labelPass,
+              obscureText: _obscureText,
               suffixIcon: GestureDetector(
                 child: _obscureText
                     ? Icon(Icons.visibility)
@@ -105,21 +107,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     _obscureText = !_obscureText;
                   });
                 },
-              ),
-            ),
-            obscureText: _obscureText,
-          ),
-          Center(
-            child: Text(
-              '${errText}',
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-          ),
-          const SizedBox(
-            height: 24,
-          ),
+              )),
+          const SizedBox(height: 24),
           _loginButton(context),
+          const SizedBox(height: 24),
           _logInGoogle(context),
+          const SizedBox(height: 24),
           ElevatedButton(
             child: Text(
               "Sign in Facebook",

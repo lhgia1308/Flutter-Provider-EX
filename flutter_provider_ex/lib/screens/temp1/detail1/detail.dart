@@ -1,16 +1,11 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_ex/constrants.dart';
 import 'package:flutter_provider_ex/models/place.dart';
-import 'package:flutter_provider_ex/screens/details/components/choose_day.dart';
-import 'package:flutter_provider_ex/screens/details/components/description.dart';
-import 'package:flutter_provider_ex/screens/details/components/place_detail_title.dart';
-import 'package:flutter_provider_ex/screens/details/components/place_image.dart';
-import 'package:flutter_provider_ex/screens/details/components/place_info.dart';
-import 'package:flutter_provider_ex/screens/details/components/price.dart';
-import 'package:flutter_provider_ex/screens/main/components/rate_star.dart';
-import 'package:flutter_provider_ex/utils/responsive.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_provider_ex/screens/temp1/detail1/components/choose_day.dart';
+import 'package:flutter_provider_ex/screens/temp1/detail1/components/description.dart';
+import 'package:flutter_provider_ex/screens/temp1/detail1/components/place_detail_title.dart';
+import 'package:flutter_provider_ex/screens/temp1/detail1/components/place_image.dart';
+import 'package:flutter_provider_ex/screens/temp1/detail1/components/price.dart';
 
 class DetailScreen extends StatelessWidget {
   DetailScreen({Key? key, required this.argument}) : super(key: key);
