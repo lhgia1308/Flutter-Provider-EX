@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_ex/constrants.dart';
 import 'package:flutter_provider_ex/routes.dart';
-import 'package:flutter_provider_ex/screens/main/components/card_info.dart';
+import 'package:flutter_provider_ex/screens/temp1/main1/components/card_info.dart';
 import 'package:flutter_provider_ex/utils/responsive.dart';
 
 class RecommendedPlaces extends StatelessWidget {

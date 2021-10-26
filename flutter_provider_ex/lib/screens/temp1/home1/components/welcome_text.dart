@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_ex/routes.dart';
-import 'package:flutter_provider_ex/screens/home1/components/welcome_button.dart';
+import 'package:flutter_provider_ex/screens/temp1/home1/components/welcome_button.dart';
 
 class WelcomeText extends StatelessWidget {
   const WelcomeText({

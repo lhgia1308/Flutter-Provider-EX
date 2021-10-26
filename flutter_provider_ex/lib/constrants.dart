@@ -43,16 +43,15 @@ InputDecoration inputDecoration(BuildContext context, Widget suffixIcon) =>
     );
 
 Widget textField({
-  required BuildContext context,
-  required TextEditingController controller,
-  required Widget suffixIcon,
+  TextEditingController? controller,
+  Widget? suffixIcon,
   Icon? icon,
   FocusNode? focusNode,
   bool obscureText = false,
   String? hintText,
 }) {
   return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(30),
       color: kPrimaryColor.withAlpha(40),
@@ -61,6 +60,7 @@ Widget textField({
       focusNode: focusNode,
       controller: controller,
       obscureText: obscureText,
+      cursorColor: Colors.transparent,
       decoration: InputDecoration(
         icon: icon,
         border: InputBorder.none,
@@ -75,12 +75,12 @@ Widget textField({
 ElevatedButtonThemeData get elevatedButtonThemeData => ElevatedButtonThemeData(
       style: ButtonStyle(
         padding: MaterialStateProperty.all<EdgeInsets>(
-            EdgeInsets.symmetric(vertical: 10, horizontal: 30)),
+            const EdgeInsets.symmetric(vertical: 12, horizontal: 30)),
         backgroundColor: MaterialStateProperty.all(Colors.blue[900]),
         shadowColor: MaterialStateProperty.all(Colors.blue[600]),
         shape: MaterialStateProperty.all<OutlinedBorder>(
           RoundedRectangleBorder(
-            side: BorderSide(
+            side: const BorderSide(
               color: Colors.white,
               width: 1,
               style: BorderStyle.solid,

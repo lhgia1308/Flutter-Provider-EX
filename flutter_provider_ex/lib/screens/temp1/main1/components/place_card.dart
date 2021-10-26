@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_ex/constrants.dart';
 import 'package:flutter_provider_ex/models/place.dart';
-import 'package:flutter_provider_ex/screens/main/components/card_info.dart';
-import 'package:flutter_provider_ex/screens/main/components/rate_star.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_provider_ex/screens/temp1/main1/components/card_info.dart';
 
 class PlaceCard extends StatelessWidget {
   PlaceCard({Key? key, required this.place}) : super(key: key);

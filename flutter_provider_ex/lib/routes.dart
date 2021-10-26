@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_ex/screens/contact/contact.dart';
 import 'package:flutter_provider_ex/screens/temp1/detail1/detail.dart';
+import 'package:flutter_provider_ex/screens/temp1/home1/home.dart';
+import 'package:flutter_provider_ex/screens/temp1/main1/main.dart';
 import 'package:flutter_provider_ex/screens/temp2/home2/home2.dart';
 import 'package:flutter_provider_ex/screens/login.dart';
 import 'package:flutter_provider_ex/screens/temp2/main2/main2.dart';
 import 'package:flutter_provider_ex/widgets/app_bar.dart';
 import 'package:flutter_provider_ex/widgets/bottom_nav_bar.dart';
+import 'package:get/get.dart';
 
 import 'widgets/sliver_appbar.dart';
 
@@ -17,29 +20,24 @@ class RouteManager {
   static const String detailScreen = '/detail';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    Map<dynamic, dynamic> parastr = {};
     return MaterialPageRoute(
       builder: (context) {
-        parastr = _switchUI(settings, context);
-        return scafFoldDefault(parastr);
+        return _switchUI(settings, context);
       },
     );
   }
 
-  static Map<dynamic, dynamic> _switchUI(
-      RouteSettings settings, BuildContext context) {
-    Map<dynamic, dynamic> parastr = {};
+  static Widget _switchUI(RouteSettings settings, BuildContext context) {
     final args = settings.arguments;
+    Widget _result = Container();
     switch (settings.name) {
       case loginScreen:
-        parastr = {
-          "widget": LoginScreen(argument: args),
-        };
+        _result = scafFoldDefault(widget: LoginScreen(argument: args));
         break;
       case homeScreen:
-        parastr = {
-          "widget": HomeScreen2(),
-          "appBar": buildAppBar(
+        _result = scafFoldDefault(
+          widget: HomeScreen2(),
+          appBar: buildAppBar(
             context,
             title: "Welcome Screen 2",
             leading: IconButton(
@@ -51,6 +49,7 @@ class RouteManager {
             actions: [
               IconButton(
                 onPressed: () {
+                  Get.deleteAll();
                   Navigator.of(context)
                       .popAndPushNamed(RouteManager.loginScreen);
                 },
@@ -58,12 +57,13 @@ class RouteManager {
               )
             ],
             automaticallyImplyLeading: false,
-          )
-        };
+          ),
+        );
         break;
       case contactScreen:
-        parastr = {
-          "appBar": buildAppBar(
+        _result = scafFoldDefault(
+          widget: ContactScreen(),
+          appBar: buildAppBar(
             context,
             title: "Contact Screen",
             actions: [
@@ -74,13 +74,13 @@ class RouteManager {
             ],
             automaticallyImplyLeading: true,
           ),
-          "widget": ContactScreen(),
-        };
+        );
         break;
       case detailScreen:
-        parastr = {
-          "sliverAppBar": true,
-          "appBar": buildSliverAppBar(
+        _result = scafFoldDefault(
+          sliverAppBar: true,
+          widget: DetailScreen(argument: args),
+          appBar: buildSliverAppBar(
             context,
             title: "Detail Screen",
             actions: [
@@ -91,16 +91,14 @@ class RouteManager {
             ],
             automaticallyImplyLeading: true,
           ),
-          "widget": DetailScreen(
-            argument: args,
-          ),
-        };
+        );
         break;
       case mainScreen:
-        parastr = {
-          "appBar": buildAppBar(
+        _result = scafFoldDefault(
+          widget: MainScreen(),
+          appBar: buildAppBar(
             context,
-            title: "Main Screen",
+            title: "Main Screen 222",
             actions: [
               IconButton(
                 onPressed: () {},
@@ -109,88 +107,84 @@ class RouteManager {
             ],
             automaticallyImplyLeading: true,
           ),
-          "widget": MainScreen2(),
-        };
+        );
         break;
       default:
         throw const FormatException('khong tim thay giao dien tuong uong');
     }
-    return parastr;
+    return _result;
   }
 
-  static Widget scafFoldDefault(parastr) {
+  static Widget scafFoldDefault({
+    required Widget widget,
+    appBar,
+    bool sliverAppBar = false,
+  }) {
     Widget result = Container();
-    try {
-      var appBar = parastr["appBar"];
-      bool sliverAppBar = parastr["sliverAppBar"] ?? false;
-      Widget widget = parastr["widget"];
-      //Login Screen
-      if (appBar == null) {
-        result = Scaffold(
-          body: SafeArea(
-            child: SingleChildScrollView(
-              child: widget,
-            ),
+    //Login Screen
+    if (appBar == null) {
+      result = Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: widget,
           ),
-        );
-      }
-      //Logined Screen
-      if (appBar != null) {
-        result = Scaffold(
-          extendBodyBehindAppBar: sliverAppBar,
-          // key: context.read<MenuController>().scaffoldKey,
-          // drawer: SideMenu(),
-          appBar: sliverAppBar ? null : appBar,
-          body: sliverAppBar
-              ? CustomScrollView(
-                  slivers: [
-                    appBar,
-                    SliverList(delegate: SliverChildListDelegate([widget]))
-                  ],
-                )
-              : SafeArea(child: SingleChildScrollView(child: widget)),
-          bottomNavigationBar: Container(
-            height: 60,
-            width: double.infinity,
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.symmetric(horizontal: 40),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 20,
-                  offset: Offset(0, 3),
-                  color: Colors.black.withAlpha(20),
-                )
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                NavItem(
-                  icon: "assets/icons/home.svg",
-                  isActive: true,
-                ),
-                NavItem(
-                  icon: "assets/icons/calendar.svg",
-                  isActive: false,
-                ),
-                NavItem(
-                  icon: "assets/icons/search.svg",
-                  isActive: false,
-                ),
-                NavItem(
-                  icon: "assets/icons/user.svg",
-                  isActive: false,
-                ),
-              ],
-            ),
+        ),
+      );
+    }
+    //Logined Screen
+    if (appBar != null) {
+      result = Scaffold(
+        extendBodyBehindAppBar: sliverAppBar,
+        // key: context.read<MenuController>().scaffoldKey,
+        // drawer: SideMenu(),
+        appBar: sliverAppBar ? null : appBar,
+        body: sliverAppBar
+            ? CustomScrollView(
+                slivers: [
+                  appBar,
+                  SliverList(delegate: SliverChildListDelegate([widget]))
+                ],
+              )
+            : SafeArea(child: SingleChildScrollView(child: widget)),
+        bottomNavigationBar: Container(
+          height: 60,
+          width: double.infinity,
+          margin: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 20,
+                offset: const Offset(0, 3),
+                color: Colors.black.withAlpha(20),
+              )
+            ],
           ),
-        );
-      }
-    } catch (e) {
-      print(e);
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              NavItem(
+                icon: "assets/icons/home.svg",
+                isActive: true,
+              ),
+              NavItem(
+                icon: "assets/icons/calendar.svg",
+                isActive: false,
+              ),
+              NavItem(
+                icon: "assets/icons/search.svg",
+                isActive: false,
+              ),
+              NavItem(
+                icon: "assets/icons/user.svg",
+                isActive: false,
+              ),
+            ],
+          ),
+        ),
+      );
     }
     return result;
   }

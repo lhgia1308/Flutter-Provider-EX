@@ -1,36 +1,38 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_ex/constrants.dart';
 import 'package:flutter_provider_ex/controllers/get_controller.dart';
-import 'package:flutter_provider_ex/models/place.dart';
-import 'package:flutter_provider_ex/screens/main/components/place_card.dart';
-import 'package:flutter_provider_ex/utils/responsive.dart';
+import 'package:flutter_provider_ex/screens/temp1/main1/components/place_card.dart';
 import 'package:get/get.dart';
 
 class Sider extends StatelessWidget {
-  final controller = Get.put(GetController());
   Sider({Key? key}) : super(key: key);
 
+  var controller = Get.put(GetController());
   @override
   Widget build(BuildContext context) {
     PageController _pageController = PageController(
       viewportFraction: 1,
       initialPage: 0,
     );
-    Timer.periodic(Duration(seconds: 5), (Timer timer) {
-      int sliderLen = demoPlaces.length;
-      if (controller.currentSlider < sliderLen - 1) {
-        controller.increaseSlider(1);
-      } else {
-        controller.setCurrentSilder(0);
-      }
-      _pageController.animateToPage(
-        controller.currentSlider,
-        duration: Duration(milliseconds: 350),
-        curve: Curves.easeIn,
-      );
-    });
+    Timer.periodic(
+      const Duration(seconds: 5),
+      (Timer timer) {
+        int sliderLen = demoPlaces.length;
+        if (controller.currentSlider < sliderLen - 1) {
+          controller.increaseSlider(1);
+        } else {
+          controller.setCurrentSilder(0);
+        }
+        if (_pageController.hasClients) {
+          _pageController.animateToPage(
+            controller.currentSlider,
+            duration: const Duration(milliseconds: 350),
+            curve: Curves.easeIn,
+          );
+        }
+      },
+    );
     return SizedBox(
       width: double.infinity,
       height: 240,

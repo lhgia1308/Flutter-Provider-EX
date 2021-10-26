@@ -84,35 +84,33 @@ class _LoginScreenState extends State<LoginScreen> {
             style: Theme.of(context).textTheme.headline2,
             textAlign: TextAlign.center,
           ),
-          TextFormField(
-            focusNode: _focusUserName,
-            controller: userNameController,
-            decoration: InputDecoration(
-              hintText: S.of(context).labelUserName,
-              border: InputBorder.none,
-            ),
-          ),
+          const SizedBox(height: 10),
           textField(
-              context: context,
+            controller: userNameController,
+            focusNode: _focusUserName,
+            hintText: S.of(context).labelUserName,
+          ),
+          const SizedBox(height: 10),
+          textField(
               controller: passController,
               focusNode: _focusPass,
               hintText: S.of(context).labelPass,
               obscureText: _obscureText,
               suffixIcon: GestureDetector(
                 child: _obscureText
-                    ? Icon(Icons.visibility)
-                    : Icon(Icons.visibility_off),
+                    ? Icon(Icons.visibility, color: Colors.grey[700])
+                    : Icon(Icons.visibility_off, color: Colors.grey[700]),
                 onTap: () {
                   setState(() {
                     _obscureText = !_obscureText;
                   });
                 },
               )),
-          const SizedBox(height: 24),
+          const SizedBox(height: 20),
           _loginButton(context),
-          const SizedBox(height: 24),
+          const SizedBox(height: 10),
           _logInGoogle(context),
-          const SizedBox(height: 24),
+          const SizedBox(height: 10),
           ElevatedButton(
             child: Text(
               "Sign in Facebook",
@@ -168,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: Theme.of(context).textTheme.bodyText1)
                     ],
                   ),
-                  const Divider()
+                  // const Divider()
                 ],
               ),
             ),

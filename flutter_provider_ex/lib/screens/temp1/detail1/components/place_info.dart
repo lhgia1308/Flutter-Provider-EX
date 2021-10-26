@@ -1,7 +1,7 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_ex/models/place.dart';
-import 'package:flutter_provider_ex/screens/main/components/rate_star.dart';
+import 'package:flutter_provider_ex/screens/temp1/main1/components/rate_star.dart';
 import 'package:flutter_provider_ex/utils/responsive.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
