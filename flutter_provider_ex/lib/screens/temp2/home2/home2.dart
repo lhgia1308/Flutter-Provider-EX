@@ -41,7 +41,7 @@ class _HomeScreen2State extends State<HomeScreen2>
     _size = MediaQuery.of(context).size;
 
     double viewInset = MediaQuery.of(context).viewInsets.bottom;
-    defaultLoginSize = _size.height;
+    defaultLoginSize = _size.height - _size.height * 0.1;
     defaultRegisterSize = _size.height - _size.height * 0.1;
 
     containerSize =
@@ -49,20 +49,30 @@ class _HomeScreen2State extends State<HomeScreen2>
             .animate(
       CurvedAnimation(parent: animationController, curve: Curves.linear),
     );
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        cancelButton(),
-        loginForm(),
-        _signInButton(),
-      ],
+    return Container(
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(border: Border.all(color: Colors.orange)),
+      // height: _size.height,
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          cancelButton(),
+          loginForm(),
+          Visibility(
+            visible: !isLogin,
+            child: registerForm(),
+          ),
+          _signInButton(),
+        ],
+      ),
     );
   }
 
   Widget loginForm() {
     return Container(
-      decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+      // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      margin: EdgeInsets.only(top: 50),
       height: defaultLoginSize,
       width: double.infinity,
       child: Column(
@@ -75,7 +85,8 @@ class _HomeScreen2State extends State<HomeScreen2>
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 40),
-          Image.asset("assets/images/welcome.jpg"),
+          Image.asset("assets/images/welcome.jpg",
+              width: double.infinity, height: 100),
           const SizedBox(height: 40),
           textField(hintText: "Username"),
           const SizedBox(height: 10),
@@ -96,16 +107,56 @@ class _HomeScreen2State extends State<HomeScreen2>
     );
   }
 
+  Widget registerForm() {
+    return Container(
+      // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      margin: EdgeInsets.only(top: 50),
+      height: containerSize?.value,
+      width: double.infinity,
+      // decoration: BoxDecoration(color: kCardInfoBG),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            "Register Form",
+            style: Theme.of(context).textTheme.bodyText1,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 40),
+          textField(hintText: "Username"),
+          const SizedBox(height: 10),
+          textField(hintText: "Pass"),
+          const SizedBox(height: 10),
+          ElevatedButton(
+            style: elevatedButtonThemeData.style,
+            onPressed: () {
+              print("savbg");
+            },
+            child: Text(
+              "Register",
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   Widget cancelButton() {
-    return IconButton(
-      icon: const Icon(Icons.close),
-      onPressed: () {
-        log("abc");
-        animationController.reverse();
-        setState(() {
-          isLogin = !isLogin;
-        });
-      },
+    return Positioned(
+      top: 0,
+      child: IconButton(
+        icon: const Icon(Icons.close),
+        onPressed: () {
+          log("abc");
+          animationController.reverse();
+          setState(() {
+            isLogin = !isLogin;
+          });
+        },
+      ),
     );
   }
 
@@ -113,34 +164,37 @@ class _HomeScreen2State extends State<HomeScreen2>
     return AnimatedBuilder(
       animation: animationController,
       builder: (context, child) {
-        return Container(
-          alignment: Alignment.bottomCenter,
-          width: double.infinity,
-          height: containerSize?.value,
-          // height: _size.height - _size.height * 0.1,
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: kCardInfoBG,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(150),
-              topRight: Radius.circular(150),
-            ),
-            border: Border.all(color: Colors.black),
-          ),
-          child: GestureDetector(
-            onTap: () {
-              setState(() {
-                animationController.forward();
-                isLogin = !isLogin;
-              });
-            },
-            child: Text(
-              "Don't have account Sign In ${isLogin}",
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-          ),
-        );
+        return signIn();
       },
+    );
+  }
+
+  Widget signIn() {
+    return Container(
+      alignment: Alignment.bottomCenter,
+      width: double.infinity,
+      height: containerSize?.value,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: kCardInfoBG,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(100),
+          topRight: Radius.circular(100),
+        ),
+        border: Border.all(color: Colors.black),
+      ),
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            animationController.forward();
+            isLogin = !isLogin;
+          });
+        },
+        child: Text(
+          "Don't have account Sign In ${isLogin}",
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+      ),
     );
   }
 }
