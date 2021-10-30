@@ -19,6 +19,7 @@ const kPrimaryColor = Color(0XFF6A62B7);
 const kPrimaryColor1 = Colors.green;
 const kBackgroundColor = Color(0XFFE5E5E5);
 const kTextColor = Color(0XFF2C2C2C);
+final kTextColor1 = Colors.orange[800]!;
 const kHintTextColor = Colors.black12;
 const kCardInfoBG = Color(0XFF686868);
 const kRatingStarColor = Color(0XFFF4D150);
@@ -26,16 +27,30 @@ const kInputBackgroundColor = Color(0XFFF3F3F3);
 const kPrimaryLightColor = Color(0XFF897CFF);
 final kButtonColor = Colors.purple[900]!;
 
+const double defaultFontSize = 17.0;
+const double defaultPadding = 20.0;
+const double defaultMargin = 20.0;
+
 TextStyle get bodyText1 =>
     const TextStyle(fontSize: defaultFontSize, color: Colors.white);
 TextStyle get bodyText2 =>
     const TextStyle(fontSize: defaultFontSize, color: Colors.white);
-TextStyle get caption => const TextStyle(
-      fontSize: defaultFontSize,
+TextStyle get caption => TextStyle(
+      fontSize: 18.0,
       color: Colors.amber,
       fontWeight: FontWeight.bold,
     );
 TextStyle get headLine1 => const TextStyle(color: Colors.white);
+TextStyle get headLine5 =>
+    const TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
+TextStyle get subTitle1 => TextStyle(color: Colors.red[900]);
+TextStyle get subTitle2 => TextStyle(color: Colors.white);
+TextStyle get buttonText => TextStyle(
+      color: Colors.white,
+      fontSize: defaultFontSize,
+      fontWeight: FontWeight.bold,
+    );
+
 InputDecoration inputDecoration(BuildContext context, Widget suffixIcon) =>
     InputDecoration(
       border: InputBorder.none,
@@ -92,10 +107,6 @@ ElevatedButtonThemeData get elevatedButtonThemeData => ElevatedButtonThemeData(
         ),
       ),
     );
-
-const double defaultFontSize = 17.0;
-const double defaultPadding = 20.0;
-const double defaultMargin = 20.0;
 
 List<Language> getLanguages = <Language>[
   Language(1, 'English', 'en', "assets/countries/us.svg"),

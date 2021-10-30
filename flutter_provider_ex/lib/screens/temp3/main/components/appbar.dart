@@ -8,18 +8,22 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        RoundButton(
-          background: Colors.white,
-          icon: Icons.arrow_back,
-          color: Colors.green,
-        ),
-        Text(
-          "You are in place",
-          style: Theme.of(context).textTheme.caption,
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        children: [
+          RoundButton(
+            background: Colors.white,
+            icon: Icons.arrow_back,
+            color: Colors.green,
+          ),
+          const SizedBox(width: 10),
+          Text(
+            "You are in place",
+            style: Theme.of(context).textTheme.caption,
+          )
+        ],
+      ),
     );
   }
 }

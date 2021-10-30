@@ -31,10 +31,12 @@ class HomeScreen3 extends StatelessWidget {
           Column(
             children: [
               CustomAppBar(),
+              const SizedBox(height: 50),
               Image.asset(
-                "assets/images/driver.png",
-                width: 220,
+                "assets/images/avata.png",
+                width: 160,
               ),
+              const SizedBox(height: 10),
               Text("Your driver", style: Theme.of(context).textTheme.bodyText1),
               Text("Mr Gia", style: Theme.of(context).textTheme.headline4),
               Divider(),
@@ -66,18 +68,21 @@ class HomeScreen3 extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Comment(),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text("Submit", style: Theme.of(context).textTheme.button),
-                  const SizedBox(width: 10),
-                  RoundButton(
-                    background: Colors.white,
-                    icon: Icons.arrow_back,
-                    color: Colors.green,
-                  ),
-                ],
+              // const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text("Submit", style: Theme.of(context).textTheme.button),
+                    const SizedBox(width: 10),
+                    RoundButton(
+                      background: Colors.green,
+                      icon: Icons.arrow_forward,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
               )
             ],
           )

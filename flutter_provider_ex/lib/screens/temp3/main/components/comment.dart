@@ -10,7 +10,7 @@ class Comment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
+      margin: const EdgeInsets.only(left: 10, right: 10),
       decoration: BoxDecoration(
           border: Border.all(color: kHintTextColor),
           borderRadius: BorderRadius.circular(20),
