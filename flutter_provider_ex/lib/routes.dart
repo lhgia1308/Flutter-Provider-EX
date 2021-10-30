@@ -6,6 +6,7 @@ import 'package:flutter_provider_ex/screens/temp1/main1/main.dart';
 import 'package:flutter_provider_ex/screens/temp2/home2/home2.dart';
 import 'package:flutter_provider_ex/screens/login.dart';
 import 'package:flutter_provider_ex/screens/temp2/main2/main2.dart';
+import 'package:flutter_provider_ex/screens/temp3/main/main3.dart';
 import 'package:flutter_provider_ex/widgets/app_bar.dart';
 import 'package:flutter_provider_ex/widgets/bottom_nav_bar.dart';
 import 'package:get/get.dart';
@@ -32,7 +33,7 @@ class RouteManager {
     Widget _result = Container();
     switch (settings.name) {
       case loginScreen:
-        _result = scafFoldDefault(widget: HomeScreen2());
+        _result = scafFoldDefault(widget: HomeScreen3());
         // _result = scafFoldDefault(widget: LoginScreen(argument: args));
         break;
       case homeScreen:
