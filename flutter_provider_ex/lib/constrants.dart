@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_ex/generated/l10n.dart';
 import 'package:flutter_provider_ex/models/place.dart';
+import 'package:flutter_provider_ex/models/plant.dart';
 
 import 'models/language.dart';
 
@@ -21,6 +22,7 @@ const kBackgroundColor = Color(0XFFE5E5E5);
 const kTextColor = Color(0XFF2C2C2C);
 final kTextColor1 = Colors.orange[800]!;
 const kHintTextColor = Colors.black12;
+const kBoxShadowColor = Colors.black12;
 const kTextFieldColor = Colors.black;
 const kCardInfoBG = Color(0XFF686868);
 const kRatingStarColor = Color(0XFFF4D150);
@@ -177,5 +179,36 @@ List<Place> demoPlaces = [
     image: 'assets/images/place4.jpg',
     rating: 3,
     price: 600,
+  ),
+];
+
+List<Plant> plantList = [
+  Plant(
+    id: 1,
+    image: "assets/images/image_1.png",
+    name: "Samantha",
+    country: "Russia",
+    price: 123,
+  ),
+  Plant(
+    id: 2,
+    image: "assets/images/image_2.png",
+    name: "Angelica",
+    country: "Russia",
+    price: 213,
+  ),
+  Plant(
+    id: 3,
+    image: "assets/images/image_3.png",
+    name: "Flaver",
+    country: "US",
+    price: 524,
+  ),
+  Plant(
+    id: 4,
+    image: "assets/images/image_1.png",
+    name: "Tigon",
+    country: "VN",
+    price: 746,
   ),
 ];

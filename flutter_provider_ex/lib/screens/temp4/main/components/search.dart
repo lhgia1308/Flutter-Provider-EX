@@ -18,6 +18,13 @@ class Search extends StatelessWidget {
         borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40)),
         color: kPrimaryColor1,
+        boxShadow: const [
+          BoxShadow(
+            color: kBoxShadowColor,
+            offset: Offset(0, 6),
+            blurRadius: 0.4,
+          ),
+        ],
       ),
       child: Stack(
         // alignment: const Alignment(0.9, 1),
@@ -41,12 +48,22 @@ class Search extends StatelessWidget {
             alignment: const Alignment(0, 8),
             padding: const EdgeInsets.all(20),
             child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: const [
+                  BoxShadow(
+                    color: kBoxShadowColor,
+                    offset: Offset(0, 4),
+                    blurRadius: 0.4,
+                  ),
+                ],
+              ),
               child: textField(
                 hintText: "Search",
                 backgroundColor: Colors.white,
                 suffixIcon: IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.search),
+                  icon: const Icon(Icons.search),
                 ),
               ),
             ),
