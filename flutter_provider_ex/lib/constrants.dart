@@ -16,11 +16,12 @@ Map<dynamic, dynamic> configPara = {
 };
 
 const kPrimaryColor = Color(0XFF6A62B7);
-const kPrimaryColor1 = Colors.green;
+final kPrimaryColor1 = Colors.green[900]!;
 const kBackgroundColor = Color(0XFFE5E5E5);
 const kTextColor = Color(0XFF2C2C2C);
 final kTextColor1 = Colors.orange[800]!;
 const kHintTextColor = Colors.black12;
+const kTextFieldColor = Colors.black;
 const kCardInfoBG = Color(0XFF686868);
 const kRatingStarColor = Color(0XFFF4D150);
 const kInputBackgroundColor = Color(0XFFF3F3F3);
@@ -66,22 +67,23 @@ Widget textField({
   FocusNode? focusNode,
   bool obscureText = false,
   String? hintText,
+  Color? backgroundColor,
 }) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(30),
-      color: kPrimaryColor.withAlpha(40),
+      color: backgroundColor,
     ),
     child: TextField(
       focusNode: focusNode,
       controller: controller,
       obscureText: obscureText,
       cursorColor: Colors.transparent,
+      style: const TextStyle(color: kTextColor),
       decoration: InputDecoration(
         icon: icon,
         border: InputBorder.none,
-        fillColor: kPrimaryColor,
         hintText: hintText,
         suffixIcon: suffixIcon,
       ),

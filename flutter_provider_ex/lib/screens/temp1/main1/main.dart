@@ -6,7 +6,7 @@ import 'package:flutter_provider_ex/controllers/get_controller.dart';
 import 'package:flutter_provider_ex/screens/temp1/main1/components/places_categoris.dart';
 import 'package:flutter_provider_ex/screens/temp1/main1/components/recommended_places.dart';
 import 'package:flutter_provider_ex/screens/temp1/main1/components/recommened.dart';
-import 'package:flutter_provider_ex/screens/temp1/main1/components/sider.dart';
+import 'package:flutter_provider_ex/screens/temp1/main1/components/slider.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/state_manager.dart';
 // import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -20,7 +20,7 @@ class MainScreen extends StatelessWidget {
     return Column(
       children: [
         PlacesCategoris(placesCategoris: placesCategoris),
-        Sider(),
+        AdvSlider(),
         Recommended(),
         RecommendedPlaces()
       ],

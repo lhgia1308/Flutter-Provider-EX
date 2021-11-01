@@ -77,9 +77,10 @@ class HomeScreen3 extends StatelessWidget {
                     Text("Submit", style: Theme.of(context).textTheme.button),
                     const SizedBox(width: 10),
                     RoundButton(
+                      onPress: () {},
                       background: Colors.green,
-                      icon: Icons.arrow_forward,
-                      color: Colors.white,
+                      iconWidget:
+                          Icon(Icons.arrow_forward, color: Colors.white),
                     ),
                   ],
                 ),

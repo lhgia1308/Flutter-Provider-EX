@@ -5,8 +5,8 @@ import 'package:flutter_provider_ex/controllers/get_controller.dart';
 import 'package:flutter_provider_ex/screens/temp1/main1/components/place_card.dart';
 import 'package:get/get.dart';
 
-class Sider extends StatelessWidget {
-  Sider({Key? key}) : super(key: key);
+class AdvSlider extends StatelessWidget {
+  AdvSlider({Key? key}) : super(key: key);
 
   var controller = Get.put(GetController());
   @override
