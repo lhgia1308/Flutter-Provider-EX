@@ -13,7 +13,7 @@ class Recommended extends StatelessWidget {
         children: [
           Text(
             "Recommended",
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.caption,
           ),
           const Spacer(),
           TextButton(

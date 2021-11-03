@@ -10,7 +10,7 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.centerLeft,
-      height: 60,
+      height: 50,
       decoration: BoxDecoration(
         // border: Border.all(color: Colors.amber),
         color: kPrimaryColor1,

@@ -7,6 +7,7 @@ import 'package:flutter_provider_ex/screens/temp2/home2/home2.dart';
 import 'package:flutter_provider_ex/screens/login.dart';
 import 'package:flutter_provider_ex/screens/temp2/main2/main2.dart';
 import 'package:flutter_provider_ex/screens/temp3/main/main3.dart';
+import 'package:flutter_provider_ex/screens/temp4/detail/detail.dart';
 import 'package:flutter_provider_ex/screens/temp4/main/main4.dart';
 import 'package:flutter_provider_ex/widgets/app_bar.dart';
 import 'package:flutter_provider_ex/widgets/bottom_nav_bar.dart';
@@ -20,6 +21,7 @@ class RouteManager {
   static const String contactScreen = '/contact';
   static const String mainScreen = '/main';
   static const String detailScreen = '/detail';
+  static const String detailScreen4 = '/detail4';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     return MaterialPageRoute(
@@ -95,6 +97,9 @@ class RouteManager {
             automaticallyImplyLeading: true,
           ),
         );
+        break;
+      case detailScreen4:
+        _result = scafFoldDefault(widget: DetailScreen4(argument: args));
         break;
       case mainScreen:
         _result = scafFoldDefault(

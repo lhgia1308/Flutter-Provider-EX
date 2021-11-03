@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget {
               bodyText2: bodyText2,
               caption: caption,
               headline1: headLine1,
+              headline4: headLine4,
               headline5: headLine5,
               subtitle1: subTitle1,
               subtitle2: subTitle2,

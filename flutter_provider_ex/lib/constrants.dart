@@ -46,8 +46,12 @@ TextStyle get caption => TextStyle(
 TextStyle get headLine1 => const TextStyle(color: Colors.white);
 TextStyle get headLine5 =>
     const TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
-TextStyle get subTitle1 => TextStyle(color: Colors.red[900]);
-TextStyle get subTitle2 => TextStyle(color: Colors.white);
+TextStyle get headLine4 =>
+    TextStyle(color: Colors.red[900], fontWeight: FontWeight.bold);
+TextStyle get subTitle1 =>
+    TextStyle(color: Colors.red[900], fontWeight: FontWeight.bold);
+TextStyle get subTitle2 =>
+    TextStyle(color: Colors.green[900], fontWeight: FontWeight.bold);
 TextStyle get buttonText => TextStyle(
       color: Colors.white,
       fontSize: defaultFontSize,
@@ -62,15 +66,15 @@ InputDecoration inputDecoration(BuildContext context, Widget suffixIcon) =>
       suffixIcon: suffixIcon,
     );
 
-Widget textField({
-  TextEditingController? controller,
-  Widget? suffixIcon,
-  Icon? icon,
-  FocusNode? focusNode,
-  bool obscureText = false,
-  String? hintText,
-  Color? backgroundColor,
-}) {
+Widget textField(
+    {TextEditingController? controller,
+    Widget? suffixIcon,
+    Icon? icon,
+    FocusNode? focusNode,
+    bool obscureText = false,
+    String? hintText,
+    Color? backgroundColor,
+    VoidCallback? onTap}) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
     decoration: BoxDecoration(
@@ -78,6 +82,7 @@ Widget textField({
       color: backgroundColor,
     ),
     child: TextField(
+      onTap: onTap,
       focusNode: focusNode,
       controller: controller,
       obscureText: obscureText,
@@ -211,4 +216,10 @@ List<Plant> plantList = [
     country: "VN",
     price: 746,
   ),
+];
+
+List<Plant> featuredPlantList = [
+  Plant(id: 1, image: "assets/images/bottom_img_1.png"),
+  Plant(id: 2, image: "assets/images/bottom_img_2.png"),
+  Plant(id: 3, image: "assets/images/bottom_img_1.png"),
 ];
