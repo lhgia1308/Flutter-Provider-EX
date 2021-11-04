@@ -11,8 +11,7 @@ class PlantInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
+    return TweenAnimationBuilder(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -37,6 +36,17 @@ class PlantInfo extends StatelessWidget {
           )
         ],
       ),
+      tween: Tween<double>(begin: 0, end: 1),
+      duration: const Duration(milliseconds: 1000),
+      builder: (BuildContext context, double val, Widget? child) {
+        return Opacity(
+          opacity: val,
+          child: Container(
+            padding: EdgeInsets.all(val * 10),
+            child: child,
+          ),
+        );
+      },
     );
   }
 }

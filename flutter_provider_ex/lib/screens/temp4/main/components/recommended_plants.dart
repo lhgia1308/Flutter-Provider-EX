@@ -31,10 +31,13 @@ class RecommendedPlants extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 children: [
                   ClipRRect(
-                    child: Image.asset(
-                      plantList[index].image!,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
+                    child: Hero(
+                      tag: "recommended-plant-lst-${plantList[index].id}",
+                      child: Image.asset(
+                        plantList[index].image!,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      ),
                     ),
                   ),
                   Container(
