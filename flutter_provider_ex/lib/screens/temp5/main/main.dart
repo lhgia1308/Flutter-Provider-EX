@@ -11,6 +11,7 @@ class MainScreen5 extends StatefulWidget {
 
 class _MainScreen5State extends State<MainScreen5> {
   late Future<Article> _newModel;
+  int currentPage = 1;
   @override
   void initState() {
     _newModel = API_Manager().getNews();
