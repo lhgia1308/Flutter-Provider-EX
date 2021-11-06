@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_ex/controllers/get_controller.dart';
 import 'package:flutter_provider_ex/models/article.dart';
+import 'package:flutter_provider_ex/models/trip.dart';
 import 'package:flutter_provider_ex/services/api_manager.dart';
+import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MainScreen5 extends StatefulWidget {
   const MainScreen5({Key? key}) : super(key: key);
@@ -10,12 +14,26 @@ class MainScreen5 extends StatefulWidget {
 }
 
 class _MainScreen5State extends State<MainScreen5> {
-  late Future<Article> _newModel;
-  int currentPage = 1;
+  late RefreshController tripRefreshController;
+  var apiController = Get.put(API_Manager());
+  Trip? trip;
   @override
   void initState() {
-    _newModel = API_Manager().getNews();
+    getAPIController();
+    tripRefreshController = RefreshController();
     super.initState();
+  }
+
+  void getAPIController() async {
+    await apiController.getTrips();
+    trip = apiController.trip;
+  }
+
+  @override
+  void dispose() {
+    tripRefreshController.dispose();
+    apiController.dispose();
+    super.dispose();
   }
 
   @override
@@ -24,65 +42,46 @@ class _MainScreen5State extends State<MainScreen5> {
     return Container(
       padding: const EdgeInsets.all(10),
       height: _size.height,
-      child: FutureBuilder<Article>(
-        future: _newModel,
-        builder: (context, snaphot) {
-          if (snaphot.hasData) {
-            return ListView.builder(
-                itemCount: snaphot.data!.articles.length,
+      child: GetBuilder<GetController>(
+        initState: (_) async {
+          await apiController.getTrips();
+          trip = apiController.trip;
+        },
+        builder: (_) {
+          if (apiController.trip != null) {
+            return SmartRefresher(
+              controller: tripRefreshController,
+              onRefresh: () {
+                apiController.getTrips(refresh: true);
+                if (apiController.tripResult)
+                  tripRefreshController.refreshCompleted();
+                else
+                  tripRefreshController.refreshFailed();
+              },
+              onLoading: () {
+                apiController.getTrips();
+                if (apiController.tripResult)
+                  tripRefreshController.refreshCompleted();
+                else
+                  tripRefreshController.refreshFailed();
+              },
+              enablePullUp: true,
+              child: ListView.separated(
                 itemBuilder: (context, index) {
-                  var article = snaphot.data!.articles[index];
-                  return Container(
-                      height: 100,
-                      // padding: const EdgeInsets.all(10),
-                      // decoration: BoxDecoration(
-                      //     border: Border.all(color: Colors.white)),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 100,
-                            height: 80,
-                            // decoration: BoxDecoration(
-                            //     border: Border.all(color: Colors.white)),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: article.urlToImage != ""
-                                  ? Image.network(
-                                      article.urlToImage,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Image.asset(
-                                      "assets/images/no-image.png",
-                                      fit: BoxFit.cover,
-                                    ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Flexible(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "${article.title}",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                ),
-                                Text(
-                                  "${article.description}",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 3,
-                                  style: Theme.of(context).textTheme.subtitle2,
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ));
-                });
+                  final trip = apiController.trip!.data[index];
+                  return ListTile(
+                    title: Text("${trip.name}"),
+                    subtitle: Text("${trip.airline[0].country}"),
+                    trailing: Text("${trip.airline[0].name}"),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int val) =>
+                    const Divider(),
+                itemCount: apiController.trip!.data.length,
+              ),
+            );
           } else
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
         },
       ),
     );

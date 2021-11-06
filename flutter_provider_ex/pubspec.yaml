@@ -64,6 +64,8 @@ dependencies:
   delayed_display: ^2.0.0
   #API
   http: ^0.13.4
+  #Refresh Data
+  pull_to_refresh: ^2.0.0
 
 
 dev_dependencies:
