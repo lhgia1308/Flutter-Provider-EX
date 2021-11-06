@@ -42,30 +42,43 @@ class API_Manager extends GetController {
     return article;
   }
 
-  Trip? trip;
-  int currentPage = 1;
-  bool tripResult = false;
+  List<Datum> tripData = [];
+  int currentPage = 0;
+  int tripStatus = 0; //0: fail, 1: success, 2: don't have data
+  int totalPageTrip = 1;
 
-  Future<bool> getTrips({bool refresh = false}) async {
+  Future<int> getTrips({bool isRefresh = false}) async {
     var client = http.Client();
     try {
-      if (refresh) {
-        currentPage = 1;
+      if (isRefresh) {
+        currentPage = 0;
+      } else {
+        if (currentPage > totalPageTrip) {
+          tripStatus = 2;
+          return tripStatus;
+        }
       }
       var url = Uri.parse(
           "https://api.instantwebtools.net/v1/passenger?page=${currentPage}&size=10");
 
       var response = await client.get(url);
       if (response.statusCode == 200) {
-        trip = tripFromJson(response.body);
+        var trip = tripFromJson(response.body);
+        if (isRefresh) {
+          tripData = trip.data;
+        } else {
+          var data1 = trip.data;
+          tripData.addAll(data1);
+        }
         currentPage++;
-        tripResult = true;
+        totalPageTrip = trip.totalPages;
+        tripStatus = 1;
       }
     } catch (e) {
       print("Error getTrips: ${e.toString()}");
       client.close();
     }
     update();
-    return tripResult;
+    return tripStatus;
   }
 }
