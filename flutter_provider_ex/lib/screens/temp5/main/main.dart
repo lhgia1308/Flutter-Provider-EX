@@ -1,6 +1,10 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_provider_ex/screens/temp5/components/custom_footer.dart';
+import 'package:flutter_provider_ex/screens/temp5/components/custom_header.dart';
+import 'package:flutter_provider_ex/screens/temp5/components/trip_list.dart';
 import 'package:flutter_provider_ex/services/api_manager.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -12,13 +16,42 @@ class MainScreen5 extends StatefulWidget {
   State<MainScreen5> createState() => _MainScreen5State();
 }
 
-class _MainScreen5State extends State<MainScreen5> {
+class _MainScreen5State extends State<MainScreen5>
+    with SingleTickerProviderStateMixin {
   late RefreshController tripRefreshController;
   var apiController = Get.put(API_Manager());
+  late GlobalKey<AnimatedListState> _keyList = GlobalKey<AnimatedListState>();
+
+  late final AnimationController _controller = AnimationController(
+    duration: Duration(milliseconds: 500),
+    vsync: this,
+  )..forward();
+  late final Animation<Offset> _offsetAnimation = Tween<Offset>(
+    begin: const Offset(1, 0),
+    end: const Offset(0, 0),
+  ).animate(CurvedAnimation(
+    parent: _controller,
+    curve: Curves.easeInCirc,
+  ));
+
   @override
   void initState() {
     apiController.getTrips();
     tripRefreshController = RefreshController();
+
+    // _controller = AnimationController(
+    //   duration: Duration(milliseconds: 500),
+    //   vsync: this,
+    // )..forward();
+
+    // _offsetAnimation = Tween<Offset>(
+    //   begin: const Offset(1, 0),
+    //   end: const Offset(0, 0),
+    // ).animate(CurvedAnimation(
+    //   parent: _controller,
+    //   curve: Curves.easeInCirc,
+    // ));
+
     super.initState();
   }
 
@@ -32,16 +65,21 @@ class _MainScreen5State extends State<MainScreen5> {
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
+    Tween<Offset> _offset =
+        Tween(begin: const Offset(1, 0), end: const Offset(0, 0));
+    // apiController.tripData.forEach((element) {
+    //   _keyList.currentState!.insertItem(apiController.tripData.length - 1);
+    // });
     return Container(
       padding: const EdgeInsets.all(10),
       height: _size.height,
       child: GetBuilder<API_Manager>(
-        initState: (_) {
-          print("object");
-          Center(child: const CircularProgressIndicator());
-        },
         builder: (_) {
-          if (apiController.tripData != null) {
+          if (apiController.tripData.length > 0) {
+            for (var element in apiController.tripData) {
+              _keyList.currentState
+                  ?.insertItem(apiController.tripData.length - 1);
+            }
             return SmartRefresher(
               controller: tripRefreshController,
               onRefresh: () {
@@ -67,16 +105,28 @@ class _MainScreen5State extends State<MainScreen5> {
                 else if (apiController.tripStatus == 2)
                   tripRefreshController.loadNoData();
               },
-              footer: customeFooterTrip(),
+              header: CustomHeaderTrip(),
+              footer: CustomFooterTrip(),
               enablePullUp: true,
               enablePullDown: true,
+              // child: AnimatedList(
+              //   key: _keyList,
+              //   initialItemCount: apiController.tripData.length,
+              //   itemBuilder: (context, index, animation) {
+              //     final trip = apiController.tripData[index];
+              //     return SlideTransition(
+              //       child: TripList(trip: trip),
+              //       position: _offsetAnimation,
+              //     );
+              //   },
+              // ),
               child: ListView.separated(
                 itemBuilder: (context, index) {
                   final trip = apiController.tripData[index];
-                  return ListTile(
-                    title: Text("${trip.name}"),
-                    subtitle: Text("${trip.airline[0].country}"),
-                    trailing: Text("${trip.airline[0].name}"),
+                  // apiController.loadTime = apiController.loadTime + 20;
+                  return SlideTransition(
+                    position: _offsetAnimation,
+                    child: TripList(trip: trip),
                   );
                 },
                 separatorBuilder: (BuildContext context, int val) =>
@@ -88,36 +138,6 @@ class _MainScreen5State extends State<MainScreen5> {
             return const Center(child: CircularProgressIndicator());
         },
       ),
-    );
-  }
-
-  Widget customeFooterTrip() {
-    return CustomFooter(
-      builder: (context, mode) {
-        Widget body;
-        if (mode == LoadStatus.idle) {
-          body = CircularProgressIndicator();
-          if (Platform.isAndroid) body = CircularProgressIndicator();
-          if (Platform.isIOS) body = CupertinoActivityIndicator();
-        } else if (mode == LoadStatus.loading) {
-          body = CupertinoActivityIndicator();
-        } else if (mode == LoadStatus.failed) {
-          body = Text("Load Failed!Click retry!");
-        } else if (mode == LoadStatus.canLoading) {
-          body = Text(
-            "Loading more",
-            style: Theme.of(context).textTheme.bodyText1,
-          );
-        } else {
-          body = Text("No more Data");
-        }
-        return Container(
-          padding: const EdgeInsets.only(bottom: 20),
-          width: 50,
-          height: 50,
-          child: Center(child: body),
-        );
-      },
     );
   }
 }

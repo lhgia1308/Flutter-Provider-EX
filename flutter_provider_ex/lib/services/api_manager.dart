@@ -46,6 +46,7 @@ class API_Manager extends GetController {
   int currentPage = 0;
   int tripStatus = 0; //0: fail, 1: success, 2: don't have data
   int totalPageTrip = 1;
+  int loadTime = 500;
 
   Future<int> getTrips({bool isRefresh = false}) async {
     var client = http.Client();
