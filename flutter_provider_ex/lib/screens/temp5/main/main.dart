@@ -23,29 +23,57 @@ class _MainScreen5State extends State<MainScreen5>
   late GlobalKey<AnimatedListState> _keyList = GlobalKey<AnimatedListState>();
 
   late final AnimationController animationController;
-  Duration animationDuration = const Duration(milliseconds: 270);
+  late Duration animationDuration;
   late final Animation<Offset> _offsetAnimation;
-  late Tween<Offset> _offset;
+  late final Animation<Offset> _offsetAnimation1;
+  late final Animation<double> _sizeAnimation;
 
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     apiController.getTrips();
     tripRefreshController = RefreshController();
 
+    animationDuration = const Duration(seconds: 2);
+
     animationController =
-        AnimationController(duration: animationDuration, vsync: this)
-          ..forward();
+        AnimationController(duration: animationDuration, vsync: this);
 
-    _offset = Tween(begin: const Offset(1, 0), end: const Offset(0, 0));
-
-    // _offsetAnimation1.drive(_offset);
     _offsetAnimation =
         Tween<Offset>(begin: const Offset(1, 0), end: const Offset(0, 0))
             .animate(
       CurvedAnimation(parent: animationController, curve: Curves.easeInCirc),
     );
+
+    _sizeAnimation = TweenSequence(
+      <TweenSequenceItem<double>>[
+        TweenSequenceItem<double>(
+            tween: Tween<double>(begin: 30, end: 50), weight: 50),
+        TweenSequenceItem<double>(
+            tween: Tween<double>(begin: 50, end: 30), weight: 50)
+      ],
+    ).animate(
+      CurvedAnimation(parent: animationController, curve: Curves.easeInCirc),
+    );
+
+    animationController.addListener(() {
+      // print(animationController.value);
+      // print(_offsetAnimation.value);
+    });
+
+    animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        setState(() {
+          print("AnimationStatus.completed");
+        });
+      }
+      if (status == AnimationStatus.dismissed) {
+        setState(() {
+          print("AnimationStatus.dismissed");
+        });
+      }
+    });
   }
 
   @override
@@ -72,6 +100,7 @@ class _MainScreen5State extends State<MainScreen5>
             //   _keyList.currentState
             //       ?.insertItem(apiController.tripData.length - 1);
             // }
+            // animationController.forward();
             return SmartRefresher(
               controller: tripRefreshController,
               onRefresh: () {
@@ -108,14 +137,18 @@ class _MainScreen5State extends State<MainScreen5>
                   final trip = apiController.tripData[index];
                   return SlideTransition(
                     child: TripList(trip: trip),
-                    position: animation.drive(_offset),
+                    position: animation.drive(
+                      Tween(
+                        begin: const Offset(1, 0),
+                        end: const Offset(0, 0),
+                      ),
+                    ),
                   );
                 },
               ),
               // child: ListView.separated(
               //   itemBuilder: (context, index) {
               //     final trip = apiController.tripData[index];
-              //     // apiController.loadTime = apiController.loadTime + 20;
               //     return SlideTransition(
               //       position: _offsetAnimation,
               //       child: TripList(trip: trip),
