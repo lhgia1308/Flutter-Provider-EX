@@ -66,6 +66,8 @@ dependencies:
   http: ^0.13.4
   #Refresh Data
   pull_to_refresh: ^2.0.0
+  #Convex BottomAppBar
+  convex_bottom_bar: ^3.0.0
 
 
 dev_dependencies:
