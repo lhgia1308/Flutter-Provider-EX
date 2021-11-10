@@ -119,34 +119,34 @@ class _MainScreen5State extends State<MainScreen5>
               footer: CustomFooterTrip(),
               enablePullUp: true,
               enablePullDown: true,
-              child: AnimatedList(
-                key: _listKey,
-                initialItemCount: apiController.tripData.length,
-                itemBuilder: (context, index, animation) {
-                  final trip = apiController.tripData[index];
-                  return SlideTransition(
-                    child: TripList(trip: trip),
-                    position: animation.drive(
-                      Tween(
-                        begin: const Offset(1, 0),
-                        end: const Offset(0, 0),
-                      ),
-                    ),
-                  );
-                },
-              ),
-              // child: ListView.separated(
-              //   itemBuilder: (context, index) {
+              // child: AnimatedList(
+              //   key: _listKey,
+              //   initialItemCount: apiController.tripData.length,
+              //   itemBuilder: (context, index, animation) {
               //     final trip = apiController.tripData[index];
               //     return SlideTransition(
-              //       position: _offsetAnimation,
               //       child: TripList(trip: trip),
+              //       position: animation.drive(
+              //         Tween(
+              //           begin: const Offset(1, 0),
+              //           end: const Offset(0, 0),
+              //         ),
+              //       ),
               //     );
               //   },
-              //   separatorBuilder: (BuildContext context, int val) =>
-              //       const Divider(),
-              //   itemCount: apiController.tripData.length,
               // ),
+              child: ListView.separated(
+                itemBuilder: (context, index) {
+                  final trip = apiController.tripData[index];
+                  return SlideTransition(
+                    position: _offsetAnimation,
+                    child: TripList(trip: trip),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int val) =>
+                    const Divider(),
+                itemCount: apiController.tripData.length,
+              ),
             );
           } else
             return const Center(child: CircularProgressIndicator());
