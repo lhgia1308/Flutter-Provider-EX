@@ -20,28 +20,22 @@ class MainScreen5 extends StatefulWidget {
 class _MainScreen5State extends State<MainScreen5>
     with SingleTickerProviderStateMixin {
   late RefreshController tripRefreshController;
-  var apiController = Get.put(API_Manager());
-  late GlobalKey<AnimatedListState> _listKey;
-
   late final AnimationController animationController;
   late Duration animationDuration;
   late final Animation<Offset> _offsetAnimation;
-  late final Animation<Offset> _offsetAnimation1;
   late final Animation<double> _sizeAnimation;
+  var apiController = Get.put(API_Manager());
 
   @override
   void initState() {
     super.initState();
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     apiController.getTrips();
-    _listKey = GlobalKey<AnimatedListState>();
     tripRefreshController = RefreshController();
-
     animationDuration = const Duration(seconds: 2);
 
     animationController =
         AnimationController(duration: animationDuration, vsync: this);
-
     _offsetAnimation =
         Tween<Offset>(begin: const Offset(1, 0), end: const Offset(0, 0))
             .animate(
@@ -80,10 +74,10 @@ class _MainScreen5State extends State<MainScreen5>
 
   @override
   void dispose() {
+    super.dispose();
     animationController.dispose();
     tripRefreshController.dispose();
     apiController.dispose();
-    super.dispose();
   }
 
   @override
@@ -91,61 +85,37 @@ class _MainScreen5State extends State<MainScreen5>
     Size _size = MediaQuery.of(context).size;
     return Container(
       padding: const EdgeInsets.all(10),
+      width: double.infinity,
       height: _size.height,
       child: GetBuilder<API_Manager>(
         builder: (_) {
           if (apiController.tripData.length > 0) {
             animationController.forward();
-            return SmartRefresher(
-              controller: tripRefreshController,
-              onRefresh: () {
-                apiController.getTrips(isRefresh: true);
-                // inspect(apiController.trip);
-                if (apiController.tripStatus == 1)
-                  tripRefreshController.refreshCompleted();
-                else if (apiController.tripStatus == 0)
-                  tripRefreshController.refreshFailed();
+            return AnimatedBuilder(
+              animation: animationController,
+              builder: (context, widget) {
+                return SlideTransition(
+                  position: _offsetAnimation,
+                  child: widget,
+                );
               },
-              onLoading: () {
-                apiController.getTrips();
-                if (apiController.tripStatus == 1)
-                  tripRefreshController.loadComplete();
-                else if (apiController.tripStatus == 0)
-                  tripRefreshController.loadFailed();
-                else if (apiController.tripStatus == 2)
-                  tripRefreshController.loadNoData();
-              },
-              header: CustomHeaderTrip(),
-              footer: CustomFooterTrip(),
-              enablePullUp: true,
-              enablePullDown: true,
-              // child: AnimatedList(
-              //   key: _listKey,
-              //   initialItemCount: apiController.tripData.length,
-              //   itemBuilder: (context, index, animation) {
-              //     final trip = apiController.tripData[index];
-              //     return SlideTransition(
-              //       child: TripList(trip: trip),
-              //       position: animation.drive(
-              //         Tween(
-              //           begin: const Offset(1, 0),
-              //           end: const Offset(0, 0),
-              //         ),
-              //       ),
-              //     );
-              //   },
-              // ),
-              child: ListView.separated(
-                itemBuilder: (context, index) {
-                  final trip = apiController.tripData[index];
-                  return SlideTransition(
-                    position: _offsetAnimation,
-                    child: TripList(trip: trip),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int val) =>
-                    const Divider(),
-                itemCount: apiController.tripData.length,
+              child: SmartRefresher(
+                controller: tripRefreshController,
+                onRefresh: _onRefresh,
+                onLoading: _onLoading,
+                header: CustomHeaderTrip(),
+                footer: CustomFooterTrip(),
+                enablePullUp: true,
+                enablePullDown: true,
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    final trip = apiController.tripData[index];
+                    return TripList(trip: trip);
+                  },
+                  separatorBuilder: (BuildContext context, int val) =>
+                      const Divider(),
+                  itemCount: apiController.tripData.length,
+                ),
               ),
             );
           } else
@@ -153,5 +123,23 @@ class _MainScreen5State extends State<MainScreen5>
         },
       ),
     );
+  }
+
+  void _onLoading() {
+    apiController.getTrips();
+    if (apiController.tripStatus == 1)
+      tripRefreshController.loadComplete();
+    else if (apiController.tripStatus == 0)
+      tripRefreshController.loadFailed();
+    else if (apiController.tripStatus == 2) tripRefreshController.loadNoData();
+  }
+
+  void _onRefresh() {
+    apiController.getTrips(isRefresh: true);
+    // inspect(apiController.trip);
+    if (apiController.tripStatus == 1)
+      tripRefreshController.refreshCompleted();
+    else if (apiController.tripStatus == 0)
+      tripRefreshController.refreshFailed();
   }
 }

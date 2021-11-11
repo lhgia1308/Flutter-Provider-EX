@@ -82,4 +82,9 @@ class API_Manager extends GetController {
     update();
     return tripStatus;
   }
+
+  int duration = 800;
+  void increaseDuration() {
+    duration = duration + 100;
+  }
 }

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 import 'package:flutter/services.dart';
+import 'package:flutter_provider_ex/services/api_manager.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 
 class MainScreen6 extends StatefulWidget {
   MainScreen6({Key? key}) : super(key: key);
@@ -11,21 +14,38 @@ class MainScreen6 extends StatefulWidget {
 }
 
 class _MainScreen6State extends State<MainScreen6>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController animationController;
   late Duration animationDuration;
   late Animation<Offset> offsetAnimation;
+  late Animation<double> rotateAngle;
+  late Animation<double> rotateAngles;
+  late int duration = 800;
+  var apiController = Get.put(API_Manager());
 
   @override
   void initState() {
     super.initState();
-    animationDuration = const Duration(seconds: 2);
+    animationDuration = Duration(milliseconds: duration);
     animationController =
-        AnimationController(duration: animationDuration, vsync: this)..repeat();
+        AnimationController(duration: animationDuration, vsync: this);
 
     offsetAnimation =
-        Tween<Offset>(begin: const Offset(1, 0), end: const Offset(0, 0))
-            .animate(animationController);
+        Tween<Offset>(begin: const Offset(2, 0), end: const Offset(0, 0))
+            .animate(
+      CurvedAnimation(parent: animationController, curve: Curves.ease),
+    );
+
+    rotateAngle = Tween<double>(begin: 0.5, end: 0.0).animate(
+        CurvedAnimation(parent: animationController, curve: Curves.decelerate));
+
+    rotateAngles = TweenSequence(<TweenSequenceItem<double>>[
+      TweenSequenceItem<double>(tween: Tween(begin: 0.5, end: 0.0), weight: 10),
+      TweenSequenceItem<double>(tween: Tween(begin: 0.0, end: 0.5), weight: 10),
+    ]).animate(
+        CurvedAnimation(parent: animationController, curve: Curves.ease));
+
+    animationController.forward();
 
     animationController.addListener(() {
       // print(animationController.value);
@@ -34,14 +54,12 @@ class _MainScreen6State extends State<MainScreen6>
 
     animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        setState(() {
-          print("AnimationStatus.completed");
-        });
+        print("AnimationStatus.completed");
+        // animationController.reverse();
       }
       if (status == AnimationStatus.dismissed) {
-        setState(() {
-          print("AnimationStatus.dismissed");
-        });
+        // print("AnimationStatus.dismissed");
+        // animationController.forward();
       }
     });
   }
@@ -52,27 +70,46 @@ class _MainScreen6State extends State<MainScreen6>
     super.dispose();
   }
 
+  List<String> items = ["Apple", "Samsung", "Nokia", "Oppo", "Sony"];
+
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
-    return AnimatedBuilder(
-      animation: animationController,
-      builder: (context, widget) {
-        return Transform(
-          alignment: Alignment.topRight,
-          transform: Matrix4.skewY(0.3)..rotateZ(-math.pi / 12.0),
-          child: widget,
+    return GetBuilder<API_Manager>(
+      builder: (context) {
+        return Container(
+          // padding: const EdgeInsets.all(50),
+          height: _size.height,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black),
+          ),
+          child: AnimatedBuilder(
+            animation: animationController,
+            builder: (context, widget) {
+              return SlideTransition(
+                position: offsetAnimation,
+                child: widget,
+              );
+            },
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  width: 50,
+                  height: 70,
+                  margin: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    color: Colors.amber,
+                  ),
+                  child: Text(items[index]),
+                );
+              },
+            ),
+          ),
         );
       },
-      child: Container(
-        width: 50,
-        height: 50,
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black),
-          color: Colors.amber,
-        ),
-        child: Text("Text"),
-      ),
     );
   }
 }
