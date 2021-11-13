@@ -23,19 +23,22 @@ class _MainScreen5State extends State<MainScreen5>
   late final AnimationController animationController;
   late Duration animationDuration;
   late final Animation<Offset> _offsetAnimation;
+  late List<Animation<double>> _animations;
   late final Animation<double> _sizeAnimation;
   var apiController = Get.put(API_Manager());
 
   @override
   void initState() {
     super.initState();
-    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    apiController.getTrips();
+    apiController.getTrips().then((value) {
+      if (value == 1) {}
+    });
     tripRefreshController = RefreshController();
-    animationDuration = const Duration(seconds: 2);
+    animationDuration = const Duration(milliseconds: 3000);
 
     animationController =
         AnimationController(duration: animationDuration, vsync: this);
+
     _offsetAnimation =
         Tween<Offset>(begin: const Offset(1, 0), end: const Offset(0, 0))
             .animate(
@@ -62,6 +65,7 @@ class _MainScreen5State extends State<MainScreen5>
       if (status == AnimationStatus.completed) {
         setState(() {
           print("AnimationStatus.completed");
+          // animationController.repeat();
         });
       }
       if (status == AnimationStatus.dismissed) {
@@ -90,33 +94,48 @@ class _MainScreen5State extends State<MainScreen5>
       child: GetBuilder<API_Manager>(
         builder: (_) {
           if (apiController.tripData.length > 0) {
+            final tween = Tween<double>(begin: 2, end: 0);
+            final intervalGap = 1 / apiController.tripData.length;
+            Animation<double> curvedAnimation(int index) => CurvedAnimation(
+                  parent: animationController,
+                  curve: Interval(0, index * intervalGap + intervalGap),
+                );
+            _animations = List.generate(
+              apiController.tripData.length,
+              (index) => tween.animate(
+                curvedAnimation(index),
+              ),
+            ).toList();
             animationController.forward();
+
             return AnimatedBuilder(
               animation: animationController,
               builder: (context, widget) {
-                return SlideTransition(
-                  position: _offsetAnimation,
-                  child: widget,
+                return SmartRefresher(
+                  controller: tripRefreshController,
+                  onRefresh: _onRefresh,
+                  onLoading: _onLoading,
+                  header: CustomHeaderTrip(),
+                  footer: CustomFooterTrip(),
+                  enablePullUp: true,
+                  enablePullDown: true,
+                  child: ListView.separated(
+                    itemBuilder: (context, index) {
+                      final trip = apiController.tripData[index];
+                      return Transform(
+                        transform: Matrix4.identity()
+                          // ..rotateZ(_animations[index].value)
+                          ..rotateY(_animations[index].value),
+                        alignment: Alignment.topRight,
+                        child: TripList(trip: trip),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int val) =>
+                        const Divider(),
+                    itemCount: apiController.tripData.length,
+                  ),
                 );
               },
-              child: SmartRefresher(
-                controller: tripRefreshController,
-                onRefresh: _onRefresh,
-                onLoading: _onLoading,
-                header: CustomHeaderTrip(),
-                footer: CustomFooterTrip(),
-                enablePullUp: true,
-                enablePullDown: true,
-                child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    final trip = apiController.tripData[index];
-                    return TripList(trip: trip);
-                  },
-                  separatorBuilder: (BuildContext context, int val) =>
-                      const Divider(),
-                  itemCount: apiController.tripData.length,
-                ),
-              ),
             );
           } else
             return const Center(child: CircularProgressIndicator());

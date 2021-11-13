@@ -106,6 +106,7 @@ class _MainScreen6State extends State<MainScreen6>
                       transform: Matrix4.identity()
                         ..rotateZ(_animations[index].value)
                         ..rotateY(_animations[index].value),
+                      alignment: Alignment.bottomRight,
                       child: Container(
                         height: 70,
                         margin: const EdgeInsets.all(10),
