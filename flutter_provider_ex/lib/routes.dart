@@ -39,7 +39,7 @@ class RouteManager {
     Widget _result = Container();
     switch (settings.name) {
       case loginScreen:
-        _result = scafFoldDefault(widget: MainScreen5());
+        _result = scafFoldDefault(widget: MainScreen6());
         // _result = scafFoldDefault(widget: LoginScreen(argument: args));
         break;
       case homeScreen:

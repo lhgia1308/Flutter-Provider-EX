@@ -20,7 +20,8 @@ class _MainScreen6State extends State<MainScreen6>
   late Animation<Offset> offsetAnimation;
   late Animation<double> rotateAngle;
   late Animation<double> rotateAngles;
-  late int duration = 800;
+  late List<Animation<double>> _animations;
+  late int duration = 1000;
   var apiController = Get.put(API_Manager());
 
   @override
@@ -29,6 +30,16 @@ class _MainScreen6State extends State<MainScreen6>
     animationDuration = Duration(milliseconds: duration);
     animationController =
         AnimationController(duration: animationDuration, vsync: this);
+
+    final _intervalGap = 1 / items.length;
+    final _tween = Tween<double>(begin: -2, end: 0);
+    Animation<double> curvedAnimation(int index) => CurvedAnimation(
+          parent: animationController,
+          curve: Interval(0, index * _intervalGap + _intervalGap),
+        );
+    _animations = List<Animation<double>>.generate(
+            items.length, (index) => _tween.animate(curvedAnimation(index)))
+        .toList();
 
     offsetAnimation =
         Tween<Offset>(begin: const Offset(2, 0), end: const Offset(0, 0))
@@ -80,34 +91,34 @@ class _MainScreen6State extends State<MainScreen6>
         return Container(
           // padding: const EdgeInsets.all(50),
           height: _size.height,
+          // width: 150,
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black),
           ),
           child: AnimatedBuilder(
-            animation: animationController,
-            builder: (context, widget) {
-              return SlideTransition(
-                position: offsetAnimation,
-                child: widget,
-              );
-            },
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  width: 50,
-                  height: 70,
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: Colors.amber,
-                  ),
-                  child: Text(items[index]),
+              animation: animationController,
+              builder: (context, widget) {
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    return Transform(
+                      transform: Matrix4.identity()
+                        ..rotateZ(_animations[index].value)
+                        ..rotateY(_animations[index].value),
+                      child: Container(
+                        height: 70,
+                        margin: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          color: Colors.amber,
+                        ),
+                        child: Text(items[index]),
+                      ),
+                    );
+                  },
                 );
-              },
-            ),
-          ),
+              }),
         );
       },
     );
