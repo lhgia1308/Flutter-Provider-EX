@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 import 'package:flutter/services.dart';
+import 'package:flutter_provider_ex/controllers/animation_route.dart';
+import 'package:flutter_provider_ex/routes.dart';
+import 'package:flutter_provider_ex/screens/temp6/detail/detail.dart';
 import 'package:flutter_provider_ex/services/api_manager.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -107,14 +110,24 @@ class _MainScreen6State extends State<MainScreen6>
                         ..rotateZ(_animations[index].value)
                         ..rotateY(_animations[index].value),
                       alignment: Alignment.bottomRight,
-                      child: Container(
-                        height: 70,
-                        margin: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          color: Colors.amber,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(RouteManager.detailScreen6);
+
+                          // Navigator.of(context).push(AnimationPage(
+                          //     page: RouteManager.getPage(
+                          //         pageName: RouteManager.detailScreen6)));
+                        },
+                        child: Container(
+                          height: 70,
+                          margin: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                            color: Colors.amber,
+                          ),
+                          child: Text(items[index]),
                         ),
-                        child: Text(items[index]),
                       ),
                     );
                   },

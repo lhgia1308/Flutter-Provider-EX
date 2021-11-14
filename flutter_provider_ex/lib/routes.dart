@@ -1,5 +1,6 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_ex/controllers/animation_route.dart';
 import 'package:flutter_provider_ex/screens/contact/contact.dart';
 import 'package:flutter_provider_ex/screens/temp1/detail1/detail.dart';
 import 'package:flutter_provider_ex/screens/temp1/home1/home.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_provider_ex/screens/temp3/main/main3.dart';
 import 'package:flutter_provider_ex/screens/temp4/detail/detail.dart';
 import 'package:flutter_provider_ex/screens/temp4/main/main4.dart';
 import 'package:flutter_provider_ex/screens/temp5/main/main.dart';
+import 'package:flutter_provider_ex/screens/temp6/detail/detail.dart';
 import 'package:flutter_provider_ex/screens/temp6/main/main.dart';
 import 'package:flutter_provider_ex/widgets/app_bar.dart';
 import 'package:flutter_provider_ex/widgets/bottom_nav_bar.dart';
@@ -25,13 +27,26 @@ class RouteManager {
   static const String mainScreen = '/main';
   static const String detailScreen = '/detail';
   static const String detailScreen4 = '/detail4';
+  static const String detailScreen6 = '/detail6';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    return MaterialPageRoute(
-      builder: (context) {
-        return _switchUI(settings, context);
-      },
+    // return MaterialPageRoute(
+    //   builder: (context) {
+    //     return _switchUI(settings, context);
+    //   },
+    // );
+    return AnimationPage(
+      page: Builder(
+        builder: (context) {
+          return _switchUI(settings, context);
+        },
+      ),
     );
+  }
+
+  static Widget getPage({required String pageName}) {
+    Widget widget = Container();
+    return widget;
   }
 
   static Widget _switchUI(RouteSettings settings, BuildContext context) {
@@ -39,7 +54,7 @@ class RouteManager {
     Widget _result = Container();
     switch (settings.name) {
       case loginScreen:
-        _result = scafFoldDefault(widget: MainScreen5());
+        _result = scafFoldDefault(widget: MainScreen6());
         // _result = scafFoldDefault(widget: LoginScreen(argument: args));
         break;
       case homeScreen:
@@ -103,6 +118,23 @@ class RouteManager {
         break;
       case detailScreen4:
         _result = scafFoldDefault(widget: DetailScreen4(argument: args));
+        break;
+      case detailScreen6:
+        _result = scafFoldDefault(
+          widget: DetailScreen6(),
+          appBar: buildAppBar(
+            context,
+            title: "Contact Screen",
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: Image.asset("assets/images/avatar.png"),
+              )
+            ],
+            automaticallyImplyLeading: true,
+          ),
+        );
+        // AnimationPage(page: _result);
         break;
       case mainScreen:
         _result = scafFoldDefault(
@@ -185,7 +217,7 @@ class RouteManager {
                 isActive: false,
               ),
               NavItem(
-                icon: "assets/icons/search.svg",
+                icon: "assets/icons/Search.svg",
                 isActive: false,
               ),
               NavItem(
