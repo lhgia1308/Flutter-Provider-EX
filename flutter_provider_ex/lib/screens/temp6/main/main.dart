@@ -112,12 +112,14 @@ class _MainScreen6State extends State<MainScreen6>
                       alignment: Alignment.bottomRight,
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.of(context)
-                              .pushNamed(RouteManager.detailScreen6);
+                          // Navigator.of(context)
+                          //     .pushNamed(RouteManager.detailScreen6);
 
-                          // Navigator.of(context).push(AnimationPage(
-                          //     page: RouteManager.getPage(
-                          //         pageName: RouteManager.detailScreen6)));
+                          Navigator.of(context).push(
+                            AnimationPage(
+                              namePage: RouteManager.detailScreen6,
+                            ),
+                          );
                         },
                         child: Container(
                           height: 70,

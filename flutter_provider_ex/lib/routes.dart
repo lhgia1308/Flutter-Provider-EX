@@ -30,22 +30,34 @@ class RouteManager {
   static const String detailScreen6 = '/detail6';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    // return MaterialPageRoute(
-    //   builder: (context) {
-    //     return _switchUI(settings, context);
-    //   },
-    // );
-    return AnimationPage(
-      page: Builder(
-        builder: (context) {
-          return _switchUI(settings, context);
-        },
-      ),
+    return MaterialPageRoute(
+      builder: (context) {
+        return _switchUI(settings, context);
+      },
     );
   }
 
-  static Widget getPage({required String pageName}) {
+  static Widget getPage({String? namePage, BuildContext? context}) {
     Widget widget = Container();
+    switch (namePage) {
+      case detailScreen6:
+        widget = scafFoldDefault(
+          widget: DetailScreen6(),
+          appBar: buildAppBar(
+            context!,
+            title: "Contact Screen",
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: Image.asset("assets/images/avatar.png"),
+              )
+            ],
+            automaticallyImplyLeading: true,
+          ),
+        );
+        break;
+      default:
+    }
     return widget;
   }
 
