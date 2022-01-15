@@ -34,6 +34,9 @@ const double defaultFontSize = 17.0;
 const double defaultPadding = 20.0;
 const double defaultMargin = 20.0;
 
+TextStyle get textStyleDefault =>
+    TextStyle(fontSize: 30.0, color: Colors.white);
+
 TextStyle get bodyText1 =>
     const TextStyle(fontSize: defaultFontSize, color: Colors.white);
 TextStyle get bodyText2 =>

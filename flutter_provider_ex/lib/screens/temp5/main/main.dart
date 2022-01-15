@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MainScreen5 extends StatefulWidget {
-  const MainScreen5({Key? key}) : super(key: key);
+  MainScreen5({Key? key}) : super(key: key);
 
   @override
   State<MainScreen5> createState() => _MainScreen5State();
@@ -81,7 +81,7 @@ class _MainScreen5State extends State<MainScreen5>
     super.dispose();
     animationController.dispose();
     tripRefreshController.dispose();
-    apiController.dispose();
+    // apiController.dispose();
   }
 
   @override

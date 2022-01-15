@@ -18,6 +18,7 @@ import 'package:flutter_provider_ex/widgets/app_bar.dart';
 import 'package:flutter_provider_ex/widgets/bottom_nav_bar.dart';
 import 'package:get/get.dart';
 
+import 'screens/home/home.dart';
 import 'widgets/sliver_appbar.dart';
 
 class RouteManager {
@@ -25,6 +26,10 @@ class RouteManager {
   static const String homeScreen = '/home';
   static const String contactScreen = '/contact';
   static const String mainScreen = '/main';
+  static const String mainScreen3 = '/main3';
+  static const String mainScreen4 = '/main4';
+  static const String mainScreen5 = '/main5';
+  static const String mainScreen6 = '/main6';
   static const String detailScreen = '/detail';
   static const String detailScreen4 = '/detail4';
   static const String detailScreen6 = '/detail6';
@@ -66,12 +71,12 @@ class RouteManager {
     Widget _result = Container();
     switch (settings.name) {
       case loginScreen:
-        _result = scafFoldDefault(widget: MainScreen6());
-        // _result = scafFoldDefault(widget: LoginScreen(argument: args));
+        // _result = scafFoldDefault(widget: MainScreen5());
+        _result = scafFoldDefault(widget: LoginScreen(argument: args));
         break;
       case homeScreen:
         _result = scafFoldDefault(
-          widget: HomeScreen2(),
+          widget: HomeScreen(),
           appBar: buildAppBar(
             context,
             title: "Welcome Screen 2",
@@ -154,6 +159,70 @@ class RouteManager {
           appBar: buildAppBar(
             context,
             title: "Main Screen 222",
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: Image.asset("assets/images/avatar.png"),
+              )
+            ],
+            automaticallyImplyLeading: true,
+          ),
+        );
+        break;
+      case mainScreen3:
+        _result = scafFoldDefault(
+          widget: HomeScreen3(),
+          appBar: buildAppBar(
+            context,
+            title: "Main Screen 333",
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: Image.asset("assets/images/avatar.png"),
+              )
+            ],
+            automaticallyImplyLeading: true,
+          ),
+        );
+        break;
+      case mainScreen4:
+        _result = scafFoldDefault(
+          widget: MainScreen4(),
+          appBar: buildAppBar(
+            context,
+            title: "Main Screen 333",
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: Image.asset("assets/images/avatar.png"),
+              )
+            ],
+            automaticallyImplyLeading: true,
+          ),
+        );
+        break;
+      case mainScreen5:
+        _result = scafFoldDefault(
+          widget: MainScreen5(),
+          appBar: buildAppBar(
+            context,
+            title: "Main Screen 333",
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: Image.asset("assets/images/avatar.png"),
+              )
+            ],
+            automaticallyImplyLeading: true,
+          ),
+        );
+        break;
+      case mainScreen6:
+        _result = scafFoldDefault(
+          widget: MainScreen6(),
+          appBar: buildAppBar(
+            context,
+            title: "Main Screen 333",
             actions: [
               IconButton(
                 onPressed: () {},
